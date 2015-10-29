@@ -5,8 +5,11 @@
  */
 package quickorder2.Consulta;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import quickorder2.HerramientaImagenes;
 
 /**
  *
@@ -17,59 +20,77 @@ public class DetalleRestaurante extends javax.swing.JDialog {
     /**
      * Creates new form DetalleRestaurante
      */
+    private ArrayList imgs;
+    private int imagenSeleccionada = 0;
+
     public DetalleRestaurante(java.awt.Frame parent, String nick) {
         super(parent, true);
         initComponents();
         cargarDatos(nick);
     }
 
-    private void cargarDatos(String nick){
+    private void cargarDatos(String nick) {
         webservices.DataRestaurante restaurante = quickorder2.QuickOrder2.port.buscarRestaurante(nick);
+        Iterator ITimg = quickorder2.QuickOrder2.port.restauranteGetImagenes(nick).iterator();
+        if (!ITimg.hasNext()) {
+            BtnAtras.setEnabled(false);
+            BtnAdelante.setEnabled(false);
+            LabelIMGs.setText("SIN IMAGENES");
+        } else {
+            imgs = new ArrayList();
+            while (ITimg.hasNext()) {
+                imgs.add(HerramientaImagenes.cargarYescalar((String) ITimg.next(), LabelIMGs.getWidth(), LabelIMGs.getHeight()));
+            }
+            LabelIMGs.setText("");
+            LabelIMGs.setIcon((ImageIcon) imgs.get(imagenSeleccionada));
+        }
+
         lblNombre.setText(restaurante.getNombre());
         lblDireccion.setText(restaurante.getDireccion());
         lblMail.setText(restaurante.getEmail());
         lblNick.setText(restaurante.getNickname());
-        
+
         Iterator it = quickorder2.QuickOrder2.port.restauranteGetCategorias(nick).iterator();
-        
+
         String cat = "";
-        while(it.hasNext()){
+        while (it.hasNext()) {
             cat += it.next().toString();
-            if(it.hasNext())
+            if (it.hasNext()) {
                 cat += ", ";
-            else
+            } else {
                 cat += ".";
+            }
         }
-        
+
         lblCategorias.setText("<html>" + cat + "</html>");
-        
+
         DefaultTableModel modelo = (DefaultTableModel) tablaProductos.getModel();
-        
+
         modelo.setColumnIdentifiers(new Object[]{"Nombre", "Descripcion", "Tipo", "Precio"});
-        
-        while(modelo.getRowCount() > 0)
+
+        while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
-        
+        }
+
         Iterator individuales = quickorder2.QuickOrder2.port.restauranteGetIndividuales(nick).iterator();
-        
-        while(individuales.hasNext()){
+
+        while (individuales.hasNext()) {
             webservices.DataIndividual producto = (webservices.DataIndividual) individuales.next();
             modelo.addRow(new Object[]{producto.getNombre(), producto.getDescripcion(), "Individual", producto.getPrecio()});
         }
-        
+
         Iterator promociones = quickorder2.QuickOrder2.port.restauranteGetPromociones(nick).iterator();
-        
-        while(promociones.hasNext()){
+
+        while (promociones.hasNext()) {
             webservices.DataPromocion producto = (webservices.DataPromocion) promociones.next();
             modelo.addRow(new Object[]{producto.getNombre(), producto.getDescripcion(), "Promocion", producto.getPrecio()});
         }
-        
+
         tablaProductos.setModel(modelo);
-        
+
         this.setTitle("Datos del restaurante " + restaurante.getNombre());
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,6 +113,9 @@ public class DetalleRestaurante extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
+        LabelIMGs = new javax.swing.JLabel();
+        BtnAdelante = new javax.swing.JButton();
+        BtnAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos del restaurante X");
@@ -132,44 +156,81 @@ public class DetalleRestaurante extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tablaProductos);
 
+        LabelIMGs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LabelIMGs.setText("IMG");
+        LabelIMGs.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        BtnAdelante.setText(">");
+        BtnAdelante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAdelanteActionPerformed(evt);
+            }
+        });
+
+        BtnAtras.setText("<");
+        BtnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(64, 64, 64)
-                        .addComponent(lblNombre))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(61, 61, 61)
-                        .addComponent(lblDireccion))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(80, 80, 80)
-                        .addComponent(lblMail))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(59, 59, 59)
-                        .addComponent(lblNick))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(52, 52, 52)
-                        .addComponent(lblCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel8))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(64, 64, 64)
+                                        .addComponent(lblNombre))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(61, 61, 61)
+                                        .addComponent(lblDireccion))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(80, 80, 80)
+                                        .addComponent(lblMail))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(59, 59, 59)
+                                        .addComponent(lblNick))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(52, 52, 52)
+                                        .addComponent(lblCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel8)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(BtnAtras)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BtnAdelante)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(292, 292, 292)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(BtnAtras)))
+                    .addComponent(BtnAdelante))
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(lblNombre))
@@ -198,6 +259,24 @@ public class DetalleRestaurante extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAtrasActionPerformed
+        if (imagenSeleccionada == 0) {
+            imagenSeleccionada = imgs.size() - 1;
+        } else {
+            imagenSeleccionada--;
+        }
+         LabelIMGs.setIcon((ImageIcon) imgs.get(imagenSeleccionada));
+    }//GEN-LAST:event_BtnAtrasActionPerformed
+
+    private void BtnAdelanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAdelanteActionPerformed
+        if (imagenSeleccionada > imgs.size() - 2) {
+            imagenSeleccionada = 0;
+        } else {
+            imagenSeleccionada++;
+        }
+        LabelIMGs.setIcon((ImageIcon) imgs.get(imagenSeleccionada));
+    }//GEN-LAST:event_BtnAdelanteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,6 +321,9 @@ public class DetalleRestaurante extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnAdelante;
+    private javax.swing.JButton BtnAtras;
+    private javax.swing.JLabel LabelIMGs;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
