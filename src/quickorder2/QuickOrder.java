@@ -191,7 +191,9 @@ public class QuickOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_ItemRIndividualActionPerformed
 
     private void ItemRPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemRPromocionActionPerformed
-        // TODO add your handling code here:
+        quickorder2.Registro.Promocion w = new quickorder2.Registro.Promocion();
+        desktopPane.add(w);
+        w.setVisible(true);
     }//GEN-LAST:event_ItemRPromocionActionPerformed
 
     /**

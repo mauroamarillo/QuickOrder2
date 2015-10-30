@@ -59,4 +59,46 @@ public class ListRenderers {
         }
 
     }
+    
+    public static class IndividualListCellRenderer extends JLabel implements ListCellRenderer<webservices.DataIndividual> {
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends webservices.DataIndividual> list, webservices.DataIndividual producto, int index,
+                boolean isSelected, boolean cellHasFocus) {
+            
+            String restaurante = producto.getRestaurante();
+
+            setText(producto.getNombre());
+            
+            this.setOpaque(isSelected);
+               
+            if(isSelected){
+               this.setBackground(list.getSelectionBackground());
+            }
+            
+            return this;
+        }
+
+    }
+    
+    public static class ProdPromoListCellRenderer extends JLabel implements ListCellRenderer<webservices.DataProdPromo> {
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends webservices.DataProdPromo> list, webservices.DataProdPromo producto, int index,
+                boolean isSelected, boolean cellHasFocus) {
+            
+            webservices.DataIndividual prod = producto.getIndividual();
+
+            setText(producto.getCantidad() + " - " + producto.getIndividual().getNombre());
+            
+            this.setOpaque(isSelected);
+               
+            if(isSelected){
+               this.setBackground(list.getSelectionBackground());
+            }
+            
+            return this;
+        }
+
+    }
 }

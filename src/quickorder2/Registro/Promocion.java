@@ -5,15 +5,21 @@
  */
 package quickorder2.Registro;
 
-import quickorder2.Registro.Herramientas.Selector;
-import webservices.DataRestaurante;
+import java.util.HashMap;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import quickorder2.Registro.Herramientas.SelectorMultiple;
+import quickorder2.Registro.Herramientas.SelectorSimple;
 
 /**
  *
  * @author Mauro
  */
 public class Promocion extends javax.swing.JInternalFrame {
-    public DataRestaurante restaurante;
+
+    public webservices.DataRestaurante restaurante;
+    public webservices.DataProdPromo[] productos = new webservices.DataProdPromo[]{};
 
     /**
      * Creates new form Promocion
@@ -43,13 +49,13 @@ public class Promocion extends javax.swing.JInternalFrame {
         txtNombre1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaProductos = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        txtRestaurante2 = new javax.swing.JTextField();
+        txtSubtotal = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtNombre2 = new javax.swing.JTextField();
+        txtDescuento = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtNombre4 = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         btnQuitar = new javax.swing.JButton();
         btnRegistrar1 = new javax.swing.JButton();
@@ -69,6 +75,8 @@ public class Promocion extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Nombre:");
 
+        setClosable(true);
+
         btnBuscarR.setText("Buscar");
         btnBuscarR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +93,7 @@ public class Promocion extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Productos:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -96,23 +104,31 @@ public class Promocion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaProductos);
 
         jLabel4.setText("Subtotal:");
 
-        txtRestaurante2.setEditable(false);
-        txtRestaurante2.setBackground(new java.awt.Color(255, 255, 255));
-        txtRestaurante2.setText("$ ");
+        txtSubtotal.setEditable(false);
+        txtSubtotal.setBackground(new java.awt.Color(255, 255, 255));
+        txtSubtotal.setText("$ ");
 
         jLabel7.setText("Descuento:");
 
-        txtNombre2.setText("% ");
+        txtDescuento.setText("% ");
+        txtDescuento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyTyped(evt);
+            }
+        });
 
         jLabel8.setText("Total:");
 
-        txtNombre4.setEditable(false);
-        txtNombre4.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombre4.setText("$ ");
+        txtTotal.setEditable(false);
+        txtTotal.setBackground(new java.awt.Color(255, 255, 255));
+        txtTotal.setText("$ ");
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -159,9 +175,9 @@ public class Promocion extends javax.swing.JInternalFrame {
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtRestaurante2)
-                            .addComponent(txtNombre2, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(txtNombre4))
+                            .addComponent(txtSubtotal)
+                            .addComponent(txtDescuento, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                            .addComponent(txtTotal))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnQuitar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,17 +208,17 @@ public class Promocion extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtRestaurante2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar)
                     .addComponent(btnQuitar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(txtNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar1)
@@ -214,7 +230,7 @@ public class Promocion extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarRActionPerformed
-        Selector s = new Selector(null, this);
+        SelectorSimple s = new SelectorSimple(null, this);
         s.cargarRestaurantes();
         s.setVisible(true);
         this.restaurante = (webservices.DataRestaurante) s.resultado;
@@ -222,7 +238,7 @@ public class Promocion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarRActionPerformed
 
     private void btnBuscarR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarR1ActionPerformed
-        Selector s = new Selector(null, this);
+        SelectorSimple s = new SelectorSimple(null, this);
         s.cargarRestaurantes();
         s.setVisible(true);
         this.restaurante = (webservices.DataRestaurante) s.resultado;
@@ -230,13 +246,91 @@ public class Promocion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarR1ActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        if (txtRestaurante.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un restaurante.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (quickorder2.QuickOrder2.port.buscarRestaurante(restaurante.getNickname()) == null) {
+            JOptionPane.showMessageDialog(this, "El restaurante ingresado no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            SelectorMultiple s = new SelectorMultiple(null);
+            s.cargarIndividuales(productos, restaurante.getNickname());
+
+            s.setVisible(true);
+            productos = (webservices.DataProdPromo[]) s.resultado;
+            
+            cargarTabla(productos);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
-        // TODO add your handling code here:
+        HashMap aux = new HashMap();
+        
+        for(int i = 0 ; i < productos.length ; i++){
+            aux.put(productos[i].getIndividual().getNombre(), productos[i]);
+        }
+        
+        for(int i = 0 ; i < tablaProductos.getSelectedRows().length ; i++){
+            aux.remove(tablaProductos.getValueAt(tablaProductos.getSelectedRows()[i], 0));
+        }
+        
+        webservices.DataProdPromo[] resultado = new webservices.DataProdPromo[aux.values().size()];
+        
+        for(int i = 0 ; i < resultado.length ; i++){
+            resultado[i] = (webservices.DataProdPromo) aux.values().toArray()[i];
+        }
+        productos = resultado;
+        
+        cargarTabla(productos);
     }//GEN-LAST:event_btnQuitarActionPerformed
 
+    private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
+                if (evt.getKeyChar() == '.') {
+            if (txtDescuento.getText().contains(",")) {
+                evt.setKeyChar('\u0000');
+            } else {
+                evt.setKeyChar(',');
+            }
+        }
+
+        if (!((evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') || evt.getKeyChar() == ',')) {
+            evt.setKeyChar('\u0000');
+        }
+
+        if (txtDescuento.getText().equals("%") || txtDescuento.getText().isEmpty()) {
+            txtDescuento.setText("% ");
+        }
+    }//GEN-LAST:event_txtDescuentoKeyTyped
+
+    private void txtDescuentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyReleased
+        calcularTotales();
+    }//GEN-LAST:event_txtDescuentoKeyReleased
+
+    private void cargarTabla(webservices.DataProdPromo[] productos) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new Object[]{"Nombre", "Descripcion", "Precio individual", "Cantidad", "Subtotal"});
+        for (webservices.DataProdPromo producto : productos) {
+            modelo.addRow(new Object[]{producto.getIndividual().getNombre(), producto.getIndividual().getDescripcion(), "$ " + producto.getIndividual().getPrecio(), producto.getCantidad(), producto.getCantidad() * producto.getIndividual().getPrecio()});
+        }
+        tablaProductos.setModel(modelo);
+        calcularTotales();
+    }
+    
+    private void calcularTotales(){
+        double subtotal = 0;
+        for(int i = 0 ; i < tablaProductos.getRowCount() ; i++){
+            subtotal += Double.valueOf(tablaProductos.getValueAt(i, tablaProductos.getColumnCount()-1).toString());
+        }
+        txtSubtotal.setText("$ " + subtotal);
+        
+        Double descuento;
+                
+        if(txtDescuento.getText().substring(2).isEmpty()){
+            descuento = 0.0;
+        }else{
+            descuento = (Double.valueOf(txtDescuento.getText().substring(2)) /100) * Double.valueOf(txtSubtotal.getText().substring(2));
+        }
+        
+        txtTotal.setText("$ " + String.valueOf(Double.valueOf(txtSubtotal.getText().substring(2)) - descuento));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -254,13 +348,13 @@ public class Promocion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaProductos;
+    private javax.swing.JTextField txtDescuento;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombre4;
     private javax.swing.JTextField txtRestaurante;
     private javax.swing.JTextField txtRestaurante1;
-    private javax.swing.JTextField txtRestaurante2;
+    private javax.swing.JTextField txtSubtotal;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

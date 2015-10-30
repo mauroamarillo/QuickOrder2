@@ -8,7 +8,7 @@ package quickorder2.Registro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import quickorder2.Registro.Herramientas.SelectorCategorias;
+import quickorder2.Registro.Herramientas.SelectorMultiple;
 import static quickorder2.Registro.Herramientas.Validaciones.*;
 
 /**
@@ -283,8 +283,11 @@ public class Restaurante extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEditarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCategoriasActionPerformed
-        SelectorCategorias sc = new SelectorCategorias(null, this);
-        sc.setVisible(true);
+        SelectorMultiple s = new SelectorMultiple(null);
+        s.cargarCategorias(categorias);
+        s.setVisible(true);
+        
+        this.categorias = (webservices.DataCategoria[]) s.resultado;
         
         String cat = "";
         

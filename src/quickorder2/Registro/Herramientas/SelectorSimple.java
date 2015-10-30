@@ -7,29 +7,28 @@ package quickorder2.Registro.Herramientas;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JInternalFrame;
-import quickorder2.Consulta.DetallePedido;
+import quickorder2.Registro.Herramientas.ListRenderers.IndividualListCellRenderer;
 import quickorder2.Registro.Herramientas.ListRenderers.RestauranteListCellRenderer;
 
 /**
  *
  * @author Mauro
  */
-public class Selector extends javax.swing.JDialog {
+public class SelectorSimple extends javax.swing.JDialog {
 
     /**
      * Creates new form Selector
      */
     JInternalFrame par = null;
     DefaultListModel modelo = null;
-    
-    public Object resultado = null;
 
-    public Selector(java.awt.Frame parent, JInternalFrame par) {
+    public Object resultado = null;
+    public Object resultados = null;
+
+    public SelectorSimple(java.awt.Frame parent, JInternalFrame par) {
         super(parent, true);
         initComponents();
         this.par = par;
@@ -47,8 +46,25 @@ public class Selector extends javax.swing.JDialog {
         lstDatos.setCellRenderer(new RestauranteListCellRenderer());
 
         lstDatos.setModel(modelo);
-        
-        txtFiltro.addKeyListener(new RestauranteKeyAdapter());;
+
+        txtFiltro.addKeyListener(new RestauranteKeyAdapter());
+    }
+
+    public void cargarProductos(String restaurante) {
+        modelo = new DefaultListModel();
+        Iterator productos = quickorder2.QuickOrder2.port.restauranteGetIndividuales(restaurante).iterator();
+
+        System.out.println(restaurante + " " + quickorder2.QuickOrder2.port.restauranteGetIndividuales(restaurante).size());
+        while (productos.hasNext()) {
+            webservices.DataIndividual producto = (webservices.DataIndividual) productos.next();
+            modelo.addElement(producto);
+        }
+
+        lstDatos.setCellRenderer(new IndividualListCellRenderer());
+
+        lstDatos.setModel(modelo);
+
+        txtFiltro.addKeyListener(new IndividualKeyAdapter());
     }
 
     /**
@@ -131,6 +147,7 @@ public class Selector extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         resultado = lstDatos.getSelectedValue();
+        resultados = lstDatos.getSelectedValuesList().toArray();
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -139,7 +156,7 @@ public class Selector extends javax.swing.JDialog {
     }//GEN-LAST:event_txtFiltroActionPerformed
 
     private void txtFiltroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyTyped
-        
+
     }//GEN-LAST:event_txtFiltroKeyTyped
 
     /**
@@ -159,20 +176,21 @@ public class Selector extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Selector.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorSimple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Selector.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorSimple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Selector.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorSimple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Selector.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorSimple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Selector dialog = new Selector(new javax.swing.JFrame(), null);
+                SelectorSimple dialog = new SelectorSimple(new javax.swing.JFrame(), null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -183,21 +201,40 @@ public class Selector extends javax.swing.JDialog {
             }
         });
     }
-    
+
     public class RestauranteKeyAdapter extends KeyAdapter {
-    @Override
-    public void keyReleased(KeyEvent event) {
-        DefaultListModel filtrado = new DefaultListModel();
-        
-        for(int i = 0 ; i < modelo.getSize() ; i++){
-            webservices.DataRestaurante restaurante = (webservices.DataRestaurante) modelo.get(i);
-            if(restaurante.getNombre().toLowerCase().contains(txtFiltro.getText().toLowerCase()))
+
+        @Override
+        public void keyReleased(KeyEvent event) {
+            DefaultListModel filtrado = new DefaultListModel();
+
+            for (int i = 0; i < modelo.getSize(); i++) {
+                webservices.DataRestaurante restaurante = (webservices.DataRestaurante) modelo.get(i);
+                if (restaurante.getNombre().toLowerCase().contains(txtFiltro.getText().toLowerCase())) {
                     filtrado.addElement(restaurante);
+                }
+            }
+
+            lstDatos.setModel(filtrado);
         }
-        
-        lstDatos.setModel(filtrado);
     }
-}
+
+    public class IndividualKeyAdapter extends KeyAdapter {
+
+        @Override
+        public void keyReleased(KeyEvent event) {
+            DefaultListModel filtrado = new DefaultListModel();
+
+            for (int i = 0; i < modelo.getSize(); i++) {
+                webservices.DataIndividual producto = (webservices.DataIndividual) modelo.get(i);
+                if (producto.getNombre().toLowerCase().contains(txtFiltro.getText().toLowerCase())) {
+                    filtrado.addElement(producto);
+                }
+            }
+
+            lstDatos.setModel(filtrado);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;

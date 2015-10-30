@@ -239,7 +239,7 @@ public class Individual extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarRActionPerformed
-        Selector s = new Selector(null, this);
+        SelectorSimple s = new SelectorSimple(null, this);
         s.cargarRestaurantes();
         s.setVisible(true);
         this.restaurante = (webservices.DataRestaurante) s.resultado;
@@ -263,7 +263,7 @@ public class Individual extends javax.swing.JInternalFrame {
             evt.setKeyChar('\u0000');
         }
 
-        if (txtPrecio.getText().equals("$")) {
+        if (txtPrecio.getText().equals("$") || txtPrecio.getText().isEmpty()) {
             txtPrecio.setText("$ ");
         }
     }//GEN-LAST:event_txtPrecioKeyTyped

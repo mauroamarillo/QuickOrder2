@@ -5,51 +5,221 @@
  */
 package quickorder2.Registro.Herramientas;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import quickorder2.Registro.Herramientas.ListRenderers.CategoriaListCellRenderer;
+import quickorder2.Registro.Herramientas.ListRenderers.*;
 
 /**
  *
  * @author Mauro
  */
-public class SelectorCategorias extends javax.swing.JDialog {
-    quickorder2.Registro.Restaurante par;
+public class SelectorMultiple extends javax.swing.JDialog {
+
+    public Object[] resultado;
+
     /**
      * Creates new form SelectorCategorias
      */
-    public SelectorCategorias(java.awt.Frame parent, quickorder2.Registro.Restaurante par ) {
+    public SelectorMultiple(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
-        listDisponibles.setCellRenderer(new CategoriaListCellRenderer());
-        listSeleccionadas.setCellRenderer(new CategoriaListCellRenderer());
-        this.par = par;
-        cargarDatos(par.categorias);
+        btnNueva.setVisible(false);
     }
 
-    public void cargarDatos(webservices.DataCategoria[] cats) {
+    public void cargarCategorias(webservices.DataCategoria[] cats) {
+        btnNueva.setVisible(true);
+        lblDisponibles.setText("Categorias disponibles:");
+        lblSeleccionados.setText("Categorias seleccionadas:");
+
+        listDisponibles.setCellRenderer(new CategoriaListCellRenderer());
+        listSeleccionadas.setCellRenderer(new CategoriaListCellRenderer());
+
+        btnAceptar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Object[] seleccionadas = new webservices.DataCategoria[listSeleccionadas.getModel().getSize()];
+                for (int i = 0; i < seleccionadas.length; i++) {
+                    seleccionadas[i] = (webservices.DataCategoria) listSeleccionadas.getModel().getElementAt(i);
+                }
+                resultado = seleccionadas;
+                dispose();
+            }
+        });
+
+        listDisponibles.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    add();
+                }
+            }
+        });
+
+        btnAdd.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                add();
+            }
+        });
+        
+        btnRemove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                remove();
+            }
+        });
+        
+        listSeleccionadas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2)
+                    remove();
+            }
+        });
+
         DefaultListModel modeloDisp = new DefaultListModel();
         DefaultListModel modeloSel = new DefaultListModel();
-        
+
         HashMap categorias = new HashMap();
-        for(webservices.DataCategoria c : cats){
-            categorias.put(c.getId(),c);
+        for (webservices.DataCategoria c : cats) {
+            categorias.put(c.getId(), c);
         }
-        
+
         Iterator disponibles = quickorder2.QuickOrder2.port.consultarDataCategorias().iterator();
 
         while (disponibles.hasNext()) {
             webservices.DataCategoria cat = (webservices.DataCategoria) disponibles.next();
-            if(categorias.containsKey(cat.getId()))
+            if (categorias.containsKey(cat.getId())) {
                 modeloSel.addElement(cat);
-            else
+            } else {
                 modeloDisp.addElement(cat);
+            }
         }
 
         listDisponibles.setModel(modeloDisp);
         listSeleccionadas.setModel(modeloSel);
+    }
+
+    public void cargarIndividuales(webservices.DataProdPromo[] seleccionados, String restaurante) {
+        btnNueva.setVisible(false);
+        lblDisponibles.setText("Productos disponibles:");
+        lblSeleccionados.setText("Productos seleccionados:");
+
+        listDisponibles.setCellRenderer(new IndividualListCellRenderer());
+        listSeleccionadas.setCellRenderer(new ProdPromoListCellRenderer());
+
+        btnAceptar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Object[] seleccionadas = new webservices.DataProdPromo[listSeleccionadas.getModel().getSize()];
+                for (int i = 0; i < seleccionadas.length; i++) {
+                    seleccionadas[i] = (webservices.DataProdPromo) listSeleccionadas.getModel().getElementAt(i);
+                }
+                resultado = seleccionadas;
+                dispose();
+            }
+        });
+
+        listDisponibles.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    addIndividualAProdPromo();
+                }
+            }
+        });
+
+        btnAdd.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                addIndividualAProdPromo();
+            }
+        });
+
+        btnRemove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                removeIndividualAProdPromo();
+            }
+        });
+        
+        listSeleccionadas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2)
+                    removeIndividualAProdPromo();
+            }
+        });
+
+        DefaultListModel modeloDisp = new DefaultListModel();
+        DefaultListModel modeloSel = new DefaultListModel();
+
+        HashMap productos = new HashMap();
+
+        for (webservices.DataProdPromo p : seleccionados) {
+            productos.put(p.getIndividual().getNombre(), p);
+        }
+
+        Iterator todos = quickorder2.QuickOrder2.port.restauranteGetIndividuales(restaurante).iterator();
+
+        while (todos.hasNext()) {
+            webservices.DataIndividual prod = (webservices.DataIndividual) todos.next();
+            if (productos.containsKey(prod.getNombre())) {
+                modeloSel.addElement(productos.get(prod.getNombre()));
+            } else {
+                modeloDisp.addElement(prod);
+            }
+        }
+
+        listDisponibles.setModel(modeloDisp);
+        listSeleccionadas.setModel(modeloSel);
+    }
+
+    public void add() {
+        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
+        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
+
+        for (Object item : listDisponibles.getSelectedValuesList()) {
+            modeloDisp.removeElement(item);
+            modeloSel.addElement(item);
+        }
+    }
+    
+    public void remove(){
+        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
+        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
+
+        for (Object item : listSeleccionadas.getSelectedValuesList()) {
+            modeloSel.removeElement(item);
+            modeloDisp.addElement(item);
+        }
+    }
+
+    public void addIndividualAProdPromo() {
+        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
+        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
+
+        for (Object item : listDisponibles.getSelectedValuesList()) {
+            webservices.DataProdPromo prod = new webservices.DataProdPromo();
+            prod.setCantidad(Integer.valueOf(JOptionPane.showInputDialog("Ingrese el nombre de la categoria:")));
+            prod.setIndividual((webservices.DataIndividual) item);
+            modeloDisp.removeElement(item);
+            modeloSel.addElement(prod);
+        }
+    }
+
+    public void removeIndividualAProdPromo() {
+        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
+        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
+
+        for (Object item : listSeleccionadas.getSelectedValuesList()) {
+            modeloSel.removeElement(item);
+            modeloDisp.addElement(((webservices.DataProdPromo) item).getIndividual());
+        }
     }
 
     /**
@@ -68,8 +238,8 @@ public class SelectorCategorias extends javax.swing.JDialog {
         btnAdd = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblDisponibles = new javax.swing.JLabel();
+        lblSeleccionados = new javax.swing.JLabel();
         btnNueva = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -125,9 +295,9 @@ public class SelectorCategorias extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Categorias disponibles:");
+        lblDisponibles.setText("Disponibles:");
 
-        jLabel2.setText("Categorias Seleccionadas:");
+        lblSeleccionados.setText("Seleccionados:");
 
         btnNueva.setText("Nueva categoria");
         btnNueva.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +319,7 @@ public class SelectorCategorias extends javax.swing.JDialog {
                         .addComponent(btnAceptar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(lblDisponibles)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -159,8 +329,8 @@ public class SelectorCategorias extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 79, Short.MAX_VALUE))
+                                .addComponent(lblSeleccionados)
+                                .addGap(0, 134, Short.MAX_VALUE))
                             .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
@@ -169,8 +339,8 @@ public class SelectorCategorias extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(lblDisponibles)
+                    .addComponent(lblSeleccionados))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -190,63 +360,39 @@ public class SelectorCategorias extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
-        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
 
-        for (Object item : listDisponibles.getSelectedValuesList()) {
-            modeloDisp.removeElement(item);
-            modeloSel.addElement(item);
-        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
-        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
-
-        for (Object item : listSeleccionadas.getSelectedValuesList()) {
-            modeloSel.removeElement(item);
-            modeloDisp.addElement(item);
-        }
+        
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        webservices.DataCategoria[] seleccionadas = new webservices.DataCategoria[listSeleccionadas.getModel().getSize()];
-        
-        for(int i = 0 ; i < seleccionadas.length ; i++){
-            seleccionadas[i] = (webservices.DataCategoria) listSeleccionadas.getModel().getElementAt(i);
-        }
-        
-        this.par.categorias = seleccionadas;
-        
-        this.dispose();
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void listDisponiblesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listDisponiblesValueChanged
-        
+
     }//GEN-LAST:event_listDisponiblesValueChanged
 
     private void listDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listDisponiblesMouseClicked
-        if(evt.getClickCount() == 2){
-            btnAddActionPerformed(null);
-        }
+        
     }//GEN-LAST:event_listDisponiblesMouseClicked
 
     private void listSeleccionadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSeleccionadasMouseClicked
-        if(evt.getClickCount() == 2){
-            btnRemoveActionPerformed(null);
-        }
+
     }//GEN-LAST:event_listSeleccionadasMouseClicked
 
     private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
         String categoria = JOptionPane.showInputDialog("Ingrese el nombre de la categoria:");
         quickorder2.QuickOrder2.port.insertarCategoria(categoria);
         webservices.DataCategoria[] seleccionadas = new webservices.DataCategoria[listSeleccionadas.getModel().getSize()];
-        
-        for(int i = 0 ; i < seleccionadas.length ; i++){
+
+        for (int i = 0; i < seleccionadas.length; i++) {
             seleccionadas[i] = (webservices.DataCategoria) listSeleccionadas.getModel().getElementAt(i);
         }
-        
-        cargarDatos(seleccionadas);
+
+        cargarCategorias(seleccionadas);
     }//GEN-LAST:event_btnNuevaActionPerformed
 
     /**
@@ -266,20 +412,21 @@ public class SelectorCategorias extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SelectorCategorias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorMultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SelectorCategorias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorMultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SelectorCategorias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorMultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SelectorCategorias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SelectorMultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SelectorCategorias dialog = new SelectorCategorias(new javax.swing.JFrame(), null);
+                SelectorMultiple dialog = new SelectorMultiple(new javax.swing.JFrame());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -296,10 +443,10 @@ public class SelectorCategorias extends javax.swing.JDialog {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnNueva;
     private javax.swing.JButton btnRemove;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDisponibles;
+    private javax.swing.JLabel lblSeleccionados;
     private javax.swing.JList listDisponibles;
     private javax.swing.JList listSeleccionadas;
     // End of variables declaration//GEN-END:variables
