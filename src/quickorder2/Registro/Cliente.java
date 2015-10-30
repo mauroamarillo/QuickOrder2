@@ -10,8 +10,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import static quickorder2.HerramientaImagenes.convertirImagen;
+import static quickorder2.Registro.Herramientas.Imagenes.convertirImagen;
 import static quickorder2.Registro.Herramientas.Validaciones.*;
 
 /**
@@ -300,12 +301,12 @@ public class Cliente extends javax.swing.JInternalFrame {
         if (verificarDatos()) {
             try {
                 quickorder2.QuickOrder2.port.insertarCliente(txtNick.getText(), txtMail.getText(), txtDireccion.getText(), txtNombre.getText(), txtApellido.getText(), fecha[0], fecha[1], fecha[2], convertirImagen(txtImagen.getText()), new String(txtPwd.getPassword()));
-                if (quickorder2.QuickOrder2.port.buscarCliente(txtNick.getText()) != null) {
+                /*if (quickorder2.QuickOrder2.port.buscarCliente(txtNick.getText()) != null) {
                     JOptionPane.showMessageDialog(this, "El restaurante " + txtNombre.getText() + " fue registrado correctamente.", "Correcto", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Aparentemente hubo un error.\n Revise los datos ingresados y su conexion a internet e inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                }*/
             } catch (Exception ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -391,13 +392,15 @@ public class Cliente extends javax.swing.JInternalFrame {
     private void btnExplorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExplorarActionPerformed
         JFileChooser fileOpen = new JFileChooser();
 
-        // Get array of available formats
         String[] suffices = ImageIO.getReaderFileSuffixes();
+        
+        for(FileFilter c : fileOpen.getChoosableFileFilters()){
+            fileOpen.removeChoosableFileFilter(c);
+        }
 
-        // Add a file filter for each one
-        fileOpen.addChoosableFileFilter(new FileNameExtensionFilter("Image Files", suffices));
+        fileOpen.addChoosableFileFilter(new FileNameExtensionFilter("Imagenes", suffices));
 
-        int ret = fileOpen.showDialog(null, "Open file");
+        int ret = fileOpen.showDialog(null, "Seleccionar imagen");
         if (ret == JFileChooser.APPROVE_OPTION) {
             txtImagen.setText(fileOpen.getSelectedFile().getPath());
         }

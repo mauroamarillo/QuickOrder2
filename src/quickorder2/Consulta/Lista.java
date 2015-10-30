@@ -197,13 +197,5 @@ public class Lista extends javax.swing.JInternalFrame {
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
-    class MyAdapter extends MouseAdapter {
-    
-        @Override
-        public void mouseClicked(MouseEvent event) {
-            JTable table = (JTable) event.getComponent();
-            if(event.getClickCount()==2)
-                JOptionPane.showMessageDialog(null, table.getValueAt(table.getSelectedRow(), 0).toString(), "Correcto", JOptionPane.INFORMATION_MESSAGE);
-    }
-}
+
 }

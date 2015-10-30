@@ -63,35 +63,5 @@ public abstract class HerramientaImagenes {
         return escalarIcono(cargarImagen(path), w, h);
     }
 
-    public static String convertirImagen(String path) throws FileNotFoundException {
-        try {
-            File file = new File(path);
-            FileInputStream fis = new FileInputStream(file);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
 
-            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                bos.write(buf, 0, readNum);
-            }
-
-            byte[] bytes = bos.toByteArray();
-
-            ImageInputStream iis = ImageIO.createImageInputStream(file);
-
-            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
-
-            String type = "bmp";
-
-            while (imageReaders.hasNext()) {
-                ImageReader reader = (ImageReader) imageReaders.next();
-                System.out.printf("formatName: %s%n", reader.getFormatName());
-                type = reader.getFormatName();
-            }
-            
-            return "data:image/" + type + ";base64," + Base64.getMimeEncoder().encodeToString(bytes);
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "NO";
-    }
 }

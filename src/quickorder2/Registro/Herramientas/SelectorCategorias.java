@@ -5,16 +5,10 @@
  */
 package quickorder2.Registro.Herramientas;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import quickorder2.Registro.Herramientas.ListRenderers.CategoriaListCellRenderer;
 
 /**
  *
@@ -28,8 +22,8 @@ public class SelectorCategorias extends javax.swing.JDialog {
     public SelectorCategorias(java.awt.Frame parent, quickorder2.Registro.Restaurante par ) {
         super(parent, true);
         initComponents();
-        listDisponibles.setCellRenderer(new CatRenderer());
-        listSeleccionadas.setCellRenderer(new CatRenderer());
+        listDisponibles.setCellRenderer(new CategoriaListCellRenderer());
+        listSeleccionadas.setCellRenderer(new CategoriaListCellRenderer());
         this.par = par;
         cargarDatos(par.categorias);
     }
@@ -55,28 +49,6 @@ public class SelectorCategorias extends javax.swing.JDialog {
 
         listDisponibles.setModel(modeloDisp);
         listSeleccionadas.setModel(modeloSel);
-    }
-
-    public class CatRenderer extends JLabel implements ListCellRenderer<webservices.DataCategoria> {
-
-        @Override
-        public Component getListCellRendererComponent(JList<? extends webservices.DataCategoria> list, webservices.DataCategoria categoria, int index,
-                boolean isSelected, boolean cellHasFocus) {
-
-            
-            
-            int id = categoria.getId();
-
-            setText(categoria.getNombre());
-            this.setOpaque(isSelected);
-               
-            if(isSelected){
-               this.setBackground(list.getSelectionBackground());
-            }
-            
-            return this;
-        }
-
     }
 
     /**
@@ -162,9 +134,7 @@ public class SelectorCategorias extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(btnAceptar))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -176,9 +146,10 @@ public class SelectorCategorias extends javax.swing.JDialog {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 79, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -193,8 +164,7 @@ public class SelectorCategorias extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRemove)
-                        .addGap(0, 0, 0))
+                        .addComponent(btnRemove))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
