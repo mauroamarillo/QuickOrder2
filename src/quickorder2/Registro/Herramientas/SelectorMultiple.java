@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import quickorder2.Registro.Herramientas.ListRenderers.*;
 
 /**
@@ -65,19 +67,20 @@ public class SelectorMultiple extends javax.swing.JDialog {
                 add();
             }
         });
-        
+
         btnRemove.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 remove();
             }
         });
-        
+
         listSeleccionadas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2)
+                if (e.getClickCount() == 2) {
                     remove();
+                }
             }
         });
 
@@ -146,12 +149,13 @@ public class SelectorMultiple extends javax.swing.JDialog {
                 removeIndividualAProdPromo();
             }
         });
-        
+
         listSeleccionadas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2)
+                if (e.getClickCount() == 2) {
                     removeIndividualAProdPromo();
+                }
             }
         });
 
@@ -188,8 +192,8 @@ public class SelectorMultiple extends javax.swing.JDialog {
             modeloSel.addElement(item);
         }
     }
-    
-    public void remove(){
+
+    public void remove() {
         DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
         DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
 
@@ -203,9 +207,12 @@ public class SelectorMultiple extends javax.swing.JDialog {
         DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
         DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
 
+        JSpinner inputField = new JSpinner(new SpinnerNumberModel(1, 1, 99, 1));
+
         for (Object item : listDisponibles.getSelectedValuesList()) {
             webservices.DataProdPromo prod = new webservices.DataProdPromo();
-            prod.setCantidad(Integer.valueOf(JOptionPane.showInputDialog("Ingrese el nombre de la categoria:")));
+            JOptionPane.showOptionDialog(this, new Object[]{"Cantidad de unidades:", inputField}, "Ingrese la cantidad de unidades", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            prod.setCantidad((Integer) inputField.getValue());
             prod.setIndividual((webservices.DataIndividual) item);
             modeloDisp.removeElement(item);
             modeloSel.addElement(prod);
@@ -364,7 +371,7 @@ public class SelectorMultiple extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        
+
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -376,7 +383,7 @@ public class SelectorMultiple extends javax.swing.JDialog {
     }//GEN-LAST:event_listDisponiblesValueChanged
 
     private void listDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listDisponiblesMouseClicked
-        
+
     }//GEN-LAST:event_listDisponiblesMouseClicked
 
     private void listSeleccionadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listSeleccionadasMouseClicked
