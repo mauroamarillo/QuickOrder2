@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
-import quickorder2.HerramientaImagenes;
+import static quickorder2.Registro.Herramientas.Imagenes.cargarYescalar;
 
 /**
  *
@@ -39,7 +39,7 @@ public class DetalleRestaurante extends javax.swing.JDialog {
         } else {
             imgs = new ArrayList();
             while (ITimg.hasNext()) {
-                imgs.add(HerramientaImagenes.cargarYescalar((String) ITimg.next(), LabelIMGs.getWidth(), LabelIMGs.getHeight()));
+                imgs.add(cargarYescalar((String) ITimg.next(), LabelIMGs.getWidth(), LabelIMGs.getHeight()));
             }
             LabelIMGs.setText("");
             LabelIMGs.setIcon((ImageIcon) imgs.get(imagenSeleccionada));

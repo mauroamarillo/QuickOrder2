@@ -48,6 +48,7 @@ public class QuickOrder extends javax.swing.JFrame {
         ItemRRestaurante = new javax.swing.JMenuItem();
         RSubMenuProducto = new javax.swing.JMenu();
         ItemRIndividual = new javax.swing.JMenuItem();
+        ItemRPromocion = new javax.swing.JMenuItem();
         MenuCons = new javax.swing.JMenu();
         CSubMenuUsuarios = new javax.swing.JMenu();
         CClientes = new javax.swing.JMenuItem();
@@ -89,6 +90,14 @@ public class QuickOrder extends javax.swing.JFrame {
             }
         });
         RSubMenuProducto.add(ItemRIndividual);
+
+        ItemRPromocion.setText("Promocion");
+        ItemRPromocion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ItemRPromocionActionPerformed(evt);
+            }
+        });
+        RSubMenuProducto.add(ItemRPromocion);
 
         MenuReg.add(RSubMenuProducto);
 
@@ -181,6 +190,10 @@ public class QuickOrder extends javax.swing.JFrame {
         w.setVisible(true);
     }//GEN-LAST:event_ItemRIndividualActionPerformed
 
+    private void ItemRPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemRPromocionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ItemRPromocionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -222,6 +235,7 @@ public class QuickOrder extends javax.swing.JFrame {
     private javax.swing.JMenu CSubMenuUsuarios;
     private javax.swing.JMenuItem ItemRCliente;
     private javax.swing.JMenuItem ItemRIndividual;
+    private javax.swing.JMenuItem ItemRPromocion;
     private javax.swing.JMenuItem ItemRRestaurante;
     private javax.swing.JMenu MenuCons;
     private javax.swing.JMenu MenuReg;

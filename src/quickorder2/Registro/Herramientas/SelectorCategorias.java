@@ -8,6 +8,7 @@ package quickorder2.Registro.Herramientas;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import quickorder2.Registro.Herramientas.ListRenderers.CategoriaListCellRenderer;
 
 /**
@@ -69,6 +70,7 @@ public class SelectorCategorias extends javax.swing.JDialog {
         btnAceptar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnNueva = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Seleccione categorias");
@@ -127,6 +129,13 @@ public class SelectorCategorias extends javax.swing.JDialog {
 
         jLabel2.setText("Categorias Seleccionadas:");
 
+        btnNueva.setText("Nueva categoria");
+        btnNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,16 +143,19 @@ public class SelectorCategorias extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnNueva)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAceptar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnAdd)
-                                    .addComponent(btnRemove)))
-                            .addComponent(jLabel1))
+                                    .addComponent(btnRemove))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -168,7 +180,9 @@ public class SelectorCategorias extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
-                .addComponent(btnAceptar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAceptar)
+                    .addComponent(btnNueva))
                 .addContainerGap())
         );
 
@@ -223,6 +237,18 @@ public class SelectorCategorias extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_listSeleccionadasMouseClicked
 
+    private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
+        String categoria = JOptionPane.showInputDialog("Ingrese el nombre de la categoria:");
+        quickorder2.QuickOrder2.port.insertarCategoria(categoria);
+        webservices.DataCategoria[] seleccionadas = new webservices.DataCategoria[listSeleccionadas.getModel().getSize()];
+        
+        for(int i = 0 ; i < seleccionadas.length ; i++){
+            seleccionadas[i] = (webservices.DataCategoria) listSeleccionadas.getModel().getElementAt(i);
+        }
+        
+        cargarDatos(seleccionadas);
+    }//GEN-LAST:event_btnNuevaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -268,6 +294,7 @@ public class SelectorCategorias extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnNueva;
     private javax.swing.JButton btnRemove;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
