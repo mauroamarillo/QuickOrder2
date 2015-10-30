@@ -7,26 +7,23 @@ import javax.swing.UIManager;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Mauro
  */
-
 public class QuickOrder extends javax.swing.JFrame {
 
     /**
      * Creates new form QuickOrder
      */
-    
     public final webservices.WSQuickOrder port;
-    
+
     public QuickOrder(webservices.WSQuickOrder port) {
         this.port = port;
         initComponents();
     }
-    
-    public QuickOrder(){
+
+    public QuickOrder() {
         this.port = null;
         initComponents();
     }
@@ -49,6 +46,7 @@ public class QuickOrder extends javax.swing.JFrame {
         RSubMenuProducto = new javax.swing.JMenu();
         ItemRIndividual = new javax.swing.JMenuItem();
         ItemRPromocion = new javax.swing.JMenuItem();
+        RSubMenuPedido = new javax.swing.JMenuItem();
         MenuCons = new javax.swing.JMenu();
         CSubMenuUsuarios = new javax.swing.JMenu();
         CClientes = new javax.swing.JMenuItem();
@@ -100,6 +98,14 @@ public class QuickOrder extends javax.swing.JFrame {
         RSubMenuProducto.add(ItemRPromocion);
 
         MenuReg.add(RSubMenuProducto);
+
+        RSubMenuPedido.setText("Pedidos");
+        RSubMenuPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RSubMenuPedidoActionPerformed(evt);
+            }
+        });
+        MenuReg.add(RSubMenuPedido);
 
         menuBar.add(MenuReg);
 
@@ -194,6 +200,12 @@ public class QuickOrder extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ItemRPromocionActionPerformed
 
+    private void RSubMenuPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RSubMenuPedidoActionPerformed
+        quickorder2.Registro.Pedido w = new quickorder2.Registro.Pedido();
+        desktopPane.add(w);
+        w.setVisible(true);
+    }//GEN-LAST:event_RSubMenuPedidoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -239,6 +251,7 @@ public class QuickOrder extends javax.swing.JFrame {
     private javax.swing.JMenuItem ItemRRestaurante;
     private javax.swing.JMenu MenuCons;
     private javax.swing.JMenu MenuReg;
+    private javax.swing.JMenuItem RSubMenuPedido;
     private javax.swing.JMenu RSubMenuProducto;
     private javax.swing.JMenu RSubMenuUsuarios;
     private javax.swing.JDesktopPane desktopPane;

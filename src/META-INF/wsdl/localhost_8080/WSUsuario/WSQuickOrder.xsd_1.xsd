@@ -367,16 +367,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="consultarCategorias">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="consultarCategoriasResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="BuscarDataXRestaurante_Producto">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -386,6 +376,16 @@
 <xs:complexType name="BuscarDataXRestaurante_ProductoResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:dataProducto" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarCategorias">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="consultarCategoriasResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>
 </xs:complexType>
 
@@ -622,18 +622,6 @@
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="nickOcupado">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="nickOcupadoResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:boolean" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="getDataPedido">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int" />
@@ -655,6 +643,18 @@
 <xs:element name="numero" type="xs:int" />
 <xs:element name="precio" type="xs:float" />
 <xs:element name="restaurante" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="nickOcupado">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="nickOcupadoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 
