@@ -8,7 +8,6 @@ package quickorder2.Registro;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -330,7 +329,7 @@ public class Promocion extends javax.swing.JInternalFrame {
                 return;
             }
         }
-        SelectorSimple s = new SelectorSimple(null, this);
+        SelectorSimple s = new SelectorSimple(null);
         s.cargarRestaurantes();
         s.setVisible(true);
         this.restaurante = (webservices.DataRestaurante) s.resultado;
@@ -340,7 +339,7 @@ public class Promocion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarRActionPerformed
 
     private void btnBuscarR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarR1ActionPerformed
-        SelectorSimple s = new SelectorSimple(null, this);
+        SelectorSimple s = new SelectorSimple(null);
         s.cargarRestaurantes();
         s.setVisible(true);
         this.restaurante = (webservices.DataRestaurante) s.resultado;

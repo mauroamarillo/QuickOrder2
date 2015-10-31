@@ -4,107 +4,23 @@
 <xsd:import namespace="http://WebServices/" schemaLocation="http://localhost:8080/WSUsuario/WSQuickOrder?xsd=1" />
 </xsd:schema>
 </types>
-<message name="consultarRestaurantesPorCategoria">
-<part name="parameters" element="tns:consultarRestaurantesPorCategoria" />
+<message name="cantidadPorCategoria">
+<part name="parameters" element="tns:cantidadPorCategoria" />
 </message>
-<message name="consultarRestaurantesPorCategoriaResponse">
-<part name="parameters" element="tns:consultarRestaurantesPorCategoriaResponse" />
+<message name="cantidadPorCategoriaResponse">
+<part name="parameters" element="tns:cantidadPorCategoriaResponse" />
 </message>
-<message name="getDataClientes">
-<part name="parameters" element="tns:getDataClientes" />
+<message name="insertarRestaurante">
+<part name="parameters" element="tns:insertarRestaurante" />
 </message>
-<message name="getDataClientesResponse">
-<part name="parameters" element="tns:getDataClientesResponse" />
+<message name="insertarRestauranteResponse">
+<part name="parameters" element="tns:insertarRestauranteResponse" />
 </message>
-<message name="getDataPedidos">
-<part name="parameters" element="tns:getDataPedidos" />
+<message name="retornarCambiosEstado">
+<part name="parameters" element="tns:retornarCambiosEstado" />
 </message>
-<message name="getDataPedidosResponse">
-<part name="parameters" element="tns:getDataPedidosResponse" />
-</message>
-<message name="getDataPedido">
-<part name="parameters" element="tns:getDataPedido" />
-</message>
-<message name="getDataPedidoResponse">
-<part name="parameters" element="tns:getDataPedidoResponse" />
-</message>
-<message name="pruebaPromocion">
-<part name="parameters" element="tns:pruebaPromocion" />
-</message>
-<message name="pruebaPromocionResponse">
-<part name="parameters" element="tns:pruebaPromocionResponse" />
-</message>
-<message name="emailOcupado">
-<part name="parameters" element="tns:emailOcupado" />
-</message>
-<message name="emailOcupadoResponse">
-<part name="parameters" element="tns:emailOcupadoResponse" />
-</message>
-<message name="modificarCliente">
-<part name="parameters" element="tns:modificarCliente" />
-</message>
-<message name="modificarClienteResponse">
-<part name="parameters" element="tns:modificarClienteResponse" />
-</message>
-<message name="agregarACarrito">
-<part name="parameters" element="tns:agregarACarrito" />
-</message>
-<message name="agregarACarritoResponse">
-<part name="parameters" element="tns:agregarACarritoResponse" />
-</message>
-<message name="nickOcupado">
-<part name="parameters" element="tns:nickOcupado" />
-</message>
-<message name="nickOcupadoResponse">
-<part name="parameters" element="tns:nickOcupadoResponse" />
-</message>
-<message name="insertarCliente">
-<part name="parameters" element="tns:insertarCliente" />
-</message>
-<message name="insertarClienteResponse">
-<part name="parameters" element="tns:insertarClienteResponse" />
-</message>
-<message name="buscarCliente">
-<part name="parameters" element="tns:buscarCliente" />
-</message>
-<message name="buscarClienteResponse">
-<part name="parameters" element="tns:buscarClienteResponse" />
-</message>
-<message name="calificarPedido">
-<part name="parameters" element="tns:calificarPedido" />
-</message>
-<message name="calificarPedidoResponse">
-<part name="parameters" element="tns:calificarPedidoResponse" />
-</message>
-<message name="cancelarPedido">
-<part name="parameters" element="tns:cancelarPedido" />
-</message>
-<message name="cancelarPedidoResponse">
-<part name="parameters" element="tns:cancelarPedidoResponse" />
-</message>
-<message name="dc">
-<part name="parameters" element="tns:dc" />
-</message>
-<message name="dcResponse">
-<part name="parameters" element="tns:dcResponse" />
-</message>
-<message name="buscarProductosP">
-<part name="parameters" element="tns:buscarProductosP" />
-</message>
-<message name="buscarProductosPResponse">
-<part name="parameters" element="tns:buscarProductosPResponse" />
-</message>
-<message name="quitarLineaPedido">
-<part name="parameters" element="tns:quitarLineaPedido" />
-</message>
-<message name="quitarLineaPedidoResponse">
-<part name="parameters" element="tns:quitarLineaPedidoResponse" />
-</message>
-<message name="buscarClientePorEmail">
-<part name="parameters" element="tns:buscarClientePorEmail" />
-</message>
-<message name="buscarClientePorEmailResponse">
-<part name="parameters" element="tns:buscarClientePorEmailResponse" />
+<message name="retornarCambiosEstadoResponse">
+<part name="parameters" element="tns:retornarCambiosEstadoResponse" />
 </message>
 <message name="cambiarEstadoPedido">
 <part name="parameters" element="tns:cambiarEstadoPedido" />
@@ -178,17 +94,17 @@
 <message name="restauranteGetIndividualesResponse">
 <part name="parameters" element="tns:restauranteGetIndividualesResponse" />
 </message>
-<message name="clienteGetPedidos">
-<part name="parameters" element="tns:clienteGetPedidos" />
+<message name="insertarPromocion">
+<part name="parameters" element="tns:insertarPromocion" />
 </message>
-<message name="clienteGetPedidosResponse">
-<part name="parameters" element="tns:clienteGetPedidosResponse" />
+<message name="insertarPromocionResponse">
+<part name="parameters" element="tns:insertarPromocionResponse" />
 </message>
-<message name="promocionGetProdPromo">
-<part name="parameters" element="tns:promocionGetProdPromo" />
+<message name="quitarLineaPedido">
+<part name="parameters" element="tns:quitarLineaPedido" />
 </message>
-<message name="promocionGetProdPromoResponse">
-<part name="parameters" element="tns:promocionGetProdPromoResponse" />
+<message name="quitarLineaPedidoResponse">
+<part name="parameters" element="tns:quitarLineaPedidoResponse" />
 </message>
 <message name="retornarCategoriasRestaurantes">
 <part name="parameters" element="tns:retornarCategoriasRestaurantes" />
@@ -217,8 +133,8 @@
 <message name="getDataIndividuales">
 <part name="parameters" element="tns:getDataIndividuales" />
 </message>
-<message name="getPromedioCalificacionesResponse">
-<part name="parameters" element="tns:getPromedioCalificacionesResponse" />
+<message name="getDataIndividualesResponse">
+<part name="parameters" element="tns:getDataIndividualesResponse" />
 </message>
 <message name="pruebaProductoPromo">
 <part name="parameters" element="tns:pruebaProductoPromo" />
@@ -370,53 +286,11 @@
 <message name="buscarProductosResponse">
 <part name="parameters" element="tns:buscarProductosResponse" />
 </message>
-<message name="getDataPromociones">
-<part name="parameters" element="tns:getDataPromociones" />
+<message name="dc">
+<part name="parameters" element="tns:dc" />
 </message>
-<message name="getDataPromocionesResponse">
-<part name="parameters" element="tns:getDataPromocionesResponse" />
-</message>
-<message name="restauranteGetPromociones">
-<part name="parameters" element="tns:restauranteGetPromociones" />
-</message>
-<message name="restauranteGetPromocionesResponse">
-<part name="parameters" element="tns:restauranteGetPromocionesResponse" />
-</message>
-<message name="getDataIndividuales">
-<part name="parameters" element="tns:getDataIndividuales" />
-</message>
-<message name="getDataIndividualesResponse">
-<part name="parameters" element="tns:getDataIndividualesResponse" />
-</message>
-<message name="obtenerCalificacionPedido">
-<part name="parameters" element="tns:obtenerCalificacionPedido" />
-</message>
-<message name="obtenerCalificacionPedidoResponse">
-<part name="parameters" element="tns:obtenerCalificacionPedidoResponse" />
-</message>
-<message name="insertarIndividual">
-<part name="parameters" element="tns:insertarIndividual" />
-</message>
-<message name="insertarIndividualResponse">
-<part name="parameters" element="tns:insertarIndividualResponse" />
-</message>
-<message name="getPedidosRestaurante">
-<part name="parameters" element="tns:getPedidosRestaurante" />
-</message>
-<message name="getPedidosRestauranteResponse">
-<part name="parameters" element="tns:getPedidosRestauranteResponse" />
-</message>
-<message name="insertarPromocion">
-<part name="parameters" element="tns:insertarPromocion" />
-</message>
-<message name="insertarPromocionResponse">
-<part name="parameters" element="tns:insertarPromocionResponse" />
-</message>
-<message name="restauranteGetCategorias">
-<part name="parameters" element="tns:restauranteGetCategorias" />
-</message>
-<message name="restauranteGetCategoriasResponse">
-<part name="parameters" element="tns:restauranteGetCategoriasResponse" />
+<message name="dcResponse">
+<part name="parameters" element="tns:dcResponse" />
 </message>
 <message name="buscarProductosP">
 <part name="parameters" element="tns:buscarProductosP" />
@@ -509,13 +383,13 @@
 <input wsam:Action="http://WebServices/WSQuickOrder/restauranteGetIndividualesRequest" message="tns:restauranteGetIndividuales" />
 <output wsam:Action="http://WebServices/WSQuickOrder/restauranteGetIndividualesResponse" message="tns:restauranteGetIndividualesResponse" />
 </operation>
-<operation name="clienteGetPedidos">
-<input wsam:Action="http://WebServices/WSQuickOrder/clienteGetPedidosRequest" message="tns:clienteGetPedidos" />
-<output wsam:Action="http://WebServices/WSQuickOrder/clienteGetPedidosResponse" message="tns:clienteGetPedidosResponse" />
+<operation name="insertarPromocion">
+<input wsam:Action="http://WebServices/WSQuickOrder/insertarPromocionRequest" message="tns:insertarPromocion" />
+<output wsam:Action="http://WebServices/WSQuickOrder/insertarPromocionResponse" message="tns:insertarPromocionResponse" />
 </operation>
-<operation name="promocionGetProdPromo">
-<input wsam:Action="http://WebServices/WSQuickOrder/promocionGetProdPromoRequest" message="tns:promocionGetProdPromo" />
-<output wsam:Action="http://WebServices/WSQuickOrder/promocionGetProdPromoResponse" message="tns:promocionGetProdPromoResponse" />
+<operation name="quitarLineaPedido">
+<input wsam:Action="http://WebServices/WSQuickOrder/quitarLineaPedidoRequest" message="tns:quitarLineaPedido" />
+<output wsam:Action="http://WebServices/WSQuickOrder/quitarLineaPedidoResponse" message="tns:quitarLineaPedidoResponse" />
 </operation>
 <operation name="retornarCategoriasRestaurantes">
 <input wsam:Action="http://WebServices/WSQuickOrder/retornarCategoriasRestaurantesRequest" message="tns:retornarCategoriasRestaurantes" />
@@ -637,37 +511,9 @@
 <input wsam:Action="http://WebServices/WSQuickOrder/buscarProductosRequest" message="tns:buscarProductos" />
 <output wsam:Action="http://WebServices/WSQuickOrder/buscarProductosResponse" message="tns:buscarProductosResponse" />
 </operation>
-<operation name="getDataPromociones">
-<input wsam:Action="http://WebServices/WSQuickOrder/getDataPromocionesRequest" message="tns:getDataPromociones" />
-<output wsam:Action="http://WebServices/WSQuickOrder/getDataPromocionesResponse" message="tns:getDataPromocionesResponse" />
-</operation>
-<operation name="restauranteGetPromociones">
-<input wsam:Action="http://WebServices/WSQuickOrder/restauranteGetPromocionesRequest" message="tns:restauranteGetPromociones" />
-<output wsam:Action="http://WebServices/WSQuickOrder/restauranteGetPromocionesResponse" message="tns:restauranteGetPromocionesResponse" />
-</operation>
-<operation name="getDataIndividuales">
-<input wsam:Action="http://WebServices/WSQuickOrder/getDataIndividualesRequest" message="tns:getDataIndividuales" />
-<output wsam:Action="http://WebServices/WSQuickOrder/getDataIndividualesResponse" message="tns:getDataIndividualesResponse" />
-</operation>
-<operation name="obtenerCalificacionPedido">
-<input wsam:Action="http://WebServices/WSQuickOrder/obtenerCalificacionPedidoRequest" message="tns:obtenerCalificacionPedido" />
-<output wsam:Action="http://WebServices/WSQuickOrder/obtenerCalificacionPedidoResponse" message="tns:obtenerCalificacionPedidoResponse" />
-</operation>
-<operation name="insertarIndividual">
-<input wsam:Action="http://WebServices/WSQuickOrder/insertarIndividualRequest" message="tns:insertarIndividual" />
-<output wsam:Action="http://WebServices/WSQuickOrder/insertarIndividualResponse" message="tns:insertarIndividualResponse" />
-</operation>
-<operation name="getPedidosRestaurante">
-<input wsam:Action="http://WebServices/WSQuickOrder/getPedidosRestauranteRequest" message="tns:getPedidosRestaurante" />
-<output wsam:Action="http://WebServices/WSQuickOrder/getPedidosRestauranteResponse" message="tns:getPedidosRestauranteResponse" />
-</operation>
-<operation name="insertarPromocion">
-<input wsam:Action="http://WebServices/WSQuickOrder/insertarPromocionRequest" message="tns:insertarPromocion" />
-<output wsam:Action="http://WebServices/WSQuickOrder/insertarPromocionResponse" message="tns:insertarPromocionResponse" />
-</operation>
-<operation name="restauranteGetCategorias">
-<input wsam:Action="http://WebServices/WSQuickOrder/restauranteGetCategoriasRequest" message="tns:restauranteGetCategorias" />
-<output wsam:Action="http://WebServices/WSQuickOrder/restauranteGetCategoriasResponse" message="tns:restauranteGetCategoriasResponse" />
+<operation name="dc">
+<input wsam:Action="http://WebServices/WSQuickOrder/dcRequest" message="tns:dc" />
+<output wsam:Action="http://WebServices/WSQuickOrder/dcResponse" message="tns:dcResponse" />
 </operation>
 <operation name="buscarProductosP">
 <input wsam:Action="http://WebServices/WSQuickOrder/buscarProductosPRequest" message="tns:buscarProductosP" />
@@ -827,7 +673,7 @@
 <soap:body use="literal" />
 </output>
 </operation>
-<operation name="clienteGetPedidos">
+<operation name="insertarPromocion">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />
@@ -836,7 +682,7 @@
 <soap:body use="literal" />
 </output>
 </operation>
-<operation name="promocionGetProdPromo">
+<operation name="quitarLineaPedido">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />
@@ -882,7 +728,6 @@
 </output>
 </operation>
 <operation name="getDataIndividuales">
-<operation name="getPromedioCalificaciones">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />
@@ -1116,70 +961,7 @@
 <soap:body use="literal" />
 </output>
 </operation>
-<operation name="getDataPromociones">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="restauranteGetPromociones">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="getDataIndividuales">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="obtenerCalificacionPedido">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="insertarIndividual">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="getPedidosRestaurante">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="insertarPromocion">
-<soap:operation soapAction="" />
-<input>
-<soap:body use="literal" />
-</input>
-<output>
-<soap:body use="literal" />
-</output>
-</operation>
-<operation name="restauranteGetCategorias">
+<operation name="dc">
 <soap:operation soapAction="" />
 <input>
 <soap:body use="literal" />

@@ -183,6 +183,93 @@ public class SelectorMultiple extends javax.swing.JDialog {
         listSeleccionadas.setModel(modeloSel);
     }
 
+    public void cargarProductos(webservices.DataProdPedido[] prods, String restaurante) {
+        btnNueva.setVisible(true);
+        lblDisponibles.setText("Productos disponibles:");
+        lblSeleccionados.setText("Productos seleccionados:");
+
+        listDisponibles.setCellRenderer(new ProductosListCellRenderer());
+        listSeleccionadas.setCellRenderer(new ProdPedidoListCellRenderer());
+
+        btnAceptar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Object[] seleccionadas = new webservices.DataProdPedido[listSeleccionadas.getModel().getSize()];
+                for (int i = 0; i < seleccionadas.length; i++) {
+                    seleccionadas[i] = (webservices.DataProdPedido) listSeleccionadas.getModel().getElementAt(i);
+                }
+                resultado = seleccionadas;
+                dispose();
+            }
+        });
+
+        listDisponibles.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    addProductoAProdPedido();
+                }
+            }
+        });
+
+        btnAdd.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                addProductoAProdPedido();
+            }
+        });
+
+        btnRemove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                removeProductoAProdPedido();
+            }
+        });
+
+        listSeleccionadas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    removeProductoAProdPedido();
+                }
+            }
+        });
+
+        DefaultListModel modeloDisp = new DefaultListModel();
+        DefaultListModel modeloSel = new DefaultListModel();
+
+        HashMap productos = new HashMap();
+        
+        for (webservices.DataProdPedido p : prods) {
+            productos.put(p.getProducto().getNombre(), p);
+        }
+
+        Iterator disponibles = quickorder2.QuickOrder2.port.restauranteGetIndividuales(restaurante).iterator();
+
+        while (disponibles.hasNext()) {
+            webservices.DataProducto prod = (webservices.DataProducto) disponibles.next();
+            if (productos.containsKey(prod.getNombre())) {
+                modeloSel.addElement(productos.get(prod.getNombre()));
+            } else {
+                modeloDisp.addElement(prod);
+            }
+        }
+        
+        disponibles = quickorder2.QuickOrder2.port.restauranteGetPromociones(restaurante).iterator();
+
+        while (disponibles.hasNext()) {
+            webservices.DataPromocion prod = (webservices.DataPromocion) disponibles.next();
+            if (productos.containsKey(prod.getNombre())) {
+                modeloSel.addElement(productos.get(prod.getNombre()));
+            } else {
+                modeloDisp.addElement(prod);
+            }
+        }
+
+        listDisponibles.setModel(modeloDisp);
+        listSeleccionadas.setModel(modeloSel);
+    }
+
     public void add() {
         DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
         DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
@@ -226,6 +313,32 @@ public class SelectorMultiple extends javax.swing.JDialog {
         for (Object item : listSeleccionadas.getSelectedValuesList()) {
             modeloSel.removeElement(item);
             modeloDisp.addElement(((webservices.DataProdPromo) item).getIndividual());
+        }
+    }
+
+    public void addProductoAProdPedido() {
+        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
+        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
+
+        JSpinner inputField = new JSpinner(new SpinnerNumberModel(1, 1, 99, 1));
+
+        for (Object item : listDisponibles.getSelectedValuesList()) {
+            webservices.DataProdPedido prod = new webservices.DataProdPedido();
+            JOptionPane.showOptionDialog(this, new Object[]{"Cantidad de unidades:", inputField}, "Ingrese la cantidad de unidades", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            prod.setCantidad((Integer) inputField.getValue());
+            prod.setProducto((webservices.DataProducto) item);
+            modeloDisp.removeElement(item);
+            modeloSel.addElement(prod);
+        }
+    }
+
+    public void removeProductoAProdPedido() {
+        DefaultListModel modeloDisp = (DefaultListModel) listDisponibles.getModel();
+        DefaultListModel modeloSel = (DefaultListModel) listSeleccionadas.getModel();
+
+        for (Object item : listSeleccionadas.getSelectedValuesList()) {
+            modeloSel.removeElement(item);
+            modeloDisp.addElement(((webservices.DataProdPedido) item).getProducto());
         }
     }
 

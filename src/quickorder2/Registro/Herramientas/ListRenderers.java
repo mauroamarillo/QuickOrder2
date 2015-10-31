@@ -95,6 +95,8 @@ public class ListRenderers {
 
             return this;
         }
+        
+    }
     
     public static class IndividualListCellRenderer extends JLabel implements ListCellRenderer<webservices.DataIndividual> {
 
@@ -126,6 +128,27 @@ public class ListRenderers {
             webservices.DataIndividual prod = producto.getIndividual();
 
             setText(producto.getCantidad() + " - " + producto.getIndividual().getNombre());
+            
+            this.setOpaque(isSelected);
+               
+            if(isSelected){
+               this.setBackground(list.getSelectionBackground());
+            }
+            
+            return this;
+        }
+
+    }
+    
+    public static class ProdPedidoListCellRenderer extends JLabel implements ListCellRenderer<webservices.DataProdPedido> {
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends webservices.DataProdPedido> list, webservices.DataProdPedido producto, int index,
+                boolean isSelected, boolean cellHasFocus) {
+            
+            webservices.DataProducto prod = producto.getProducto();
+
+            setText(producto.getCantidad() + " - " + producto.getProducto().getNombre());
             
             this.setOpaque(isSelected);
                

@@ -9,9 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
-import javax.swing.JInternalFrame;
-import quickorder2.Registro.Herramientas.ListRenderers.IndividualListCellRenderer;
-import quickorder2.Registro.Herramientas.ListRenderers.RestauranteListCellRenderer;
+import quickorder2.Registro.Herramientas.ListRenderers.*;
 
 /**
  *
@@ -22,16 +20,14 @@ public class SelectorSimple extends javax.swing.JDialog {
     /**
      * Creates new form Selector
      */
-    JInternalFrame par = null;
     DefaultListModel modelo = null;
 
     public Object resultado = null;
     public Object resultados = null;
 
-    public SelectorSimple(java.awt.Frame parent, JInternalFrame par) {
+    public SelectorSimple(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
-        this.par = par;
     }
 
     public void cargarRestaurantes() {
@@ -67,6 +63,21 @@ public class SelectorSimple extends javax.swing.JDialog {
         txtFiltro.addKeyListener(new IndividualKeyAdapter());
     }
 
+    public void cargarClientes(){
+        modelo = new DefaultListModel();
+        Iterator clientes = quickorder2.QuickOrder2.port.getDataClientes().iterator();
+
+        while (clientes.hasNext()) {
+            webservices.DataCliente cliente = (webservices.DataCliente) clientes.next();
+            modelo.addElement(cliente);
+        }
+
+        lstDatos.setCellRenderer(new ClienteListCellRenderer());
+
+        lstDatos.setModel(modelo);
+
+        txtFiltro.addKeyListener(new RestauranteKeyAdapter());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,7 +201,7 @@ public class SelectorSimple extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SelectorSimple dialog = new SelectorSimple(new javax.swing.JFrame(), null);
+                SelectorSimple dialog = new SelectorSimple(new javax.swing.JFrame());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -229,6 +240,23 @@ public class SelectorSimple extends javax.swing.JDialog {
                 webservices.DataIndividual producto = (webservices.DataIndividual) modelo.get(i);
                 if (producto.getNombre().toLowerCase().contains(txtFiltro.getText().toLowerCase())) {
                     filtrado.addElement(producto);
+                }
+            }
+
+            lstDatos.setModel(filtrado);
+        }
+    }
+    
+    public class ClienteKeyAdapter extends KeyAdapter {
+
+        @Override
+        public void keyReleased(KeyEvent event) {
+            DefaultListModel filtrado = new DefaultListModel();
+
+            for (int i = 0; i < modelo.getSize(); i++) {
+                webservices.DataCliente cliente = (webservices.DataCliente) modelo.get(i);
+                if (cliente.getNombre().toLowerCase().contains(txtFiltro.getText().toLowerCase())) {
+                    filtrado.addElement(cliente);
                 }
             }
 

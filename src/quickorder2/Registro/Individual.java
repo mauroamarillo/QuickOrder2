@@ -239,7 +239,7 @@ public class Individual extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarRActionPerformed
-        SelectorSimple s = new SelectorSimple(null, this);
+        SelectorSimple s = new SelectorSimple(null);
         s.cargarRestaurantes();
         s.setVisible(true);
         this.restaurante = (webservices.DataRestaurante) s.resultado;

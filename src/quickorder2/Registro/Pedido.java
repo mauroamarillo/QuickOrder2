@@ -5,76 +5,68 @@
  */
 package quickorder2.Registro;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import quickorder2.Registro.Herramientas.SelectorMultiple;
 import quickorder2.Registro.Herramientas.SelectorSimple;
-import quickorder2.Registro.Herramientas.SelectorProductosPedido;
 import webservices.DataCliente;
 import webservices.DataProdPedido;
-import webservices.DataProducto;
 import webservices.DataPromocion;
 import webservices.DataRestaurante;
 import webservices.Estado;
 
 /**
  *
- * @author Mauro
+ * @author Jean
  */
 public class Pedido extends javax.swing.JInternalFrame {
 
     public DataRestaurante restaurante;
     public DataCliente cliente;
     DefaultTableModel modeloTabla;
-    public HashMap lineas;
+    public DataProdPedido[] productos = new DataProdPedido[]{};
 
     /**
      * Creates new form Pedido
      */
     public Pedido() {
         initComponents();
-        lineas = new HashMap();
         modeloTabla = (DefaultTableModel) jTable1.getModel();
         jTable1.setModel(modeloTabla);
         limpiarTabla();
         BtnAdd.setEnabled(false);
     }
 
-    private void actualizarTotal() {
-        Iterator it = lineas.entrySet().iterator();
+    private void calcularTotal() {
         Float tot = (float) 0;
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            webservices.DataProdPedido DPP = (webservices.DataProdPedido) entry.getValue();
-            tot += (DPP.getCantidad() * DPP.getProducto().getPrecio());
+        for (DataProdPedido p : productos) {
+            tot += (p.getCantidad() * p.getProducto().getPrecio());
         }
         LabelTotal.setText(tot.toString());
     }
 
-    private void modificarCantidad(String nombre, int cantidad) {
-        if (lineas.get(nombre) != null) {
-            ((DataProdPedido) lineas.get(nombre)).setCantidad(cantidad);
-            actualizarTotal();
+    /*private void modificarCantidad(String nombre, int cantidad) {
+     if (lineas.get(nombre) != null) {
+     ((DataProdPedido) lineas.get(nombre)).setCantidad(cantidad);
+     actualizarTotal();
+     }
+     }*/
+    public void cargarTabla() {
+        limpiarTabla();
+        for (DataProdPedido dp : productos) {
+            String tipo = "Individual";
+            if (dp.getProducto() instanceof DataPromocion) {
+                tipo = "Promocion";
+            }
+
+            modeloTabla.addRow(new Object[]{dp.getProducto().getNombre(), tipo, dp.getCantidad(), dp.getProducto().getPrecio(), (dp.getProducto().getPrecio() * dp.getCantidad())});
         }
+        calcularTotal();
     }
 
-    public void agregarProducto(Object DP) {
-        String tipo = "Individual";
-        if (DP instanceof DataPromocion) {
-            tipo = "Promocion";
-        }
-        webservices.DataProdPedido agregar = new webservices.DataProdPedido();
-        agregar.setCantidad(1);
-        agregar.setProducto(((DataProducto) DP));
-        lineas.put(agregar.getProducto().getNombre(), agregar);
-        modeloTabla.addRow(new Object[]{((DataProducto) DP).getNombre(), tipo, 1, ((DataProducto) DP).getPrecio(), (((DataProducto) DP).getPrecio() * 1)});
-        actualizarTotal();
-    }
+    
 
     private void limpiarTabla() {
         modeloTabla = (DefaultTableModel) jTable1.getModel();
@@ -105,7 +97,7 @@ public class Pedido extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        Aceptar = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         Cancelar = new javax.swing.JButton();
         BtnAdd = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -135,8 +127,9 @@ public class Pedido extends javax.swing.JInternalFrame {
         });
         MenuTabla.add(edit);
 
-        setMinimumSize(new java.awt.Dimension(564, 262));
-        setPreferredSize(new java.awt.Dimension(564, 262));
+        setMaximumSize(null);
+        setMinimumSize(null);
+        setPreferredSize(null);
 
         jLabel1.setText("Cliente: ");
 
@@ -192,10 +185,10 @@ public class Pedido extends javax.swing.JInternalFrame {
             }
         });
         jTable1.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 jTable1InputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         jTable1.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
@@ -219,10 +212,10 @@ public class Pedido extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Productos:");
 
-        Aceptar.setText("Aceptar");
-        Aceptar.addActionListener(new java.awt.event.ActionListener() {
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AceptarActionPerformed(evt);
+                btnAceptarActionPerformed(evt);
             }
         });
 
@@ -233,7 +226,7 @@ public class Pedido extends javax.swing.JInternalFrame {
             }
         });
 
-        BtnAdd.setText("+");
+        BtnAdd.setText("Agregar");
         BtnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAddActionPerformed(evt);
@@ -252,15 +245,14 @@ public class Pedido extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(BtnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel3))
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtCliente)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -271,13 +263,16 @@ public class Pedido extends javax.swing.JInternalFrame {
                                 .addComponent(btnBuscarR))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(Cancelar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Aceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(LabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(Cancelar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(LabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(BtnAdd, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -293,22 +288,19 @@ public class Pedido extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtRestaurante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarR))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnAdd))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(LabelTotal))
-                .addGap(4, 4, 4)
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Aceptar)
+                    .addComponent(btnAceptar)
                     .addComponent(Cancelar))
                 .addContainerGap())
         );
@@ -343,15 +335,20 @@ public class Pedido extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTable1MouseReleased
 
     private void BtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAddActionPerformed
-        SelectorProductosPedido s = new SelectorProductosPedido(null, this);
-        s.cargarProductos();
+        SelectorMultiple s = new SelectorMultiple(null);
+        s.cargarProductos(productos, restaurante.getNickname());
         s.setVisible(true);
+        
+        productos = (DataProdPedido[]) s.resultado;
+        cargarTabla();
     }//GEN-LAST:event_BtnAddActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+/*
         SelectorProductosPedido s = new SelectorProductosPedido(null, this);
         s.cargarProductos();
         s.setVisible(true);
+*/
     }//GEN-LAST:event_addActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
@@ -359,6 +356,7 @@ public class Pedido extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+/*
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow > -1) {
             DefaultTableModel tm = (DefaultTableModel) jTable1.getModel();
@@ -367,6 +365,7 @@ public class Pedido extends javax.swing.JInternalFrame {
             modeloTabla.removeRow(selectedRow);
             actualizarTotal();
         }
+*/
     }//GEN-LAST:event_deleteActionPerformed
 
     private void jTable1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTable1InputMethodTextChanged
@@ -379,45 +378,47 @@ public class Pedido extends javax.swing.JInternalFrame {
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
 
-        int selectedRow = jTable1.getSelectedRow();
+/*        int selectedRow = jTable1.getSelectedRow();
         if (selectedRow > -1) {
             DefaultTableModel tm = (DefaultTableModel) jTable1.getModel();
             String nom = String.valueOf(tm.getValueAt(jTable1.getSelectedRow(), 0));
             int cant = Integer.parseInt(JOptionPane.showInputDialog(null,
                     "Modifcar Cantidad"));
             tm.setValueAt(cant, jTable1.getSelectedRow(), 2);
-            tm.setValueAt(cant * ((DataProdPedido) (lineas.get(nom))).getProducto().getPrecio(), jTable1.getSelectedRow(), 4);
+            tm.setValueAt(cant * ((DataProdPedido) (productos.get(nom))).getProducto().getPrecio(), jTable1.getSelectedRow(), 4);
             modificarCantidad(nom, cant);
-            actualizarTotal();
+            calcularTotal();
         }
+*/        
     }//GEN-LAST:event_editActionPerformed
 
-    private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
-        List<Object> list = (List<Object>) Arrays.asList((Object[]) lineas.values().toArray());
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        List<DataProdPedido> prods = new ArrayList<>();
+        
+        for(DataProdPedido p : productos){
+            prods.add(p);
+        }
 
         Calendar fecha = new java.util.GregorianCalendar();
         String anio = String.valueOf(fecha.get(Calendar.YEAR));
-        int mes = fecha.get(Calendar.MONTH);
+        String mes = String.valueOf(fecha.get(Calendar.MONTH));
         String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
 
-        String[] meses = {"enero", "febrero", "marzo", "abril", "mayo",
-            "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
-
-        quickorder2.QuickOrder2.port.insertarPedido(dia, meses[mes], anio, Estado.PREPARACION,
-                cliente.getNickname(), restaurante.getNickname(), (List) list);
+        quickorder2.QuickOrder2.port.insertarPedido(dia, mes, anio, Estado.PREPARACION,
+                cliente.getNickname(), restaurante.getNickname(), (List) prods);
 
         this.dispose();
 
-    }//GEN-LAST:event_AceptarActionPerformed
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Aceptar;
     private javax.swing.JButton BtnAdd;
     private javax.swing.JButton Cancelar;
     private javax.swing.JLabel LabelTotal;
     private javax.swing.JPopupMenu MenuTabla;
     private javax.swing.JMenuItem add;
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarC;
     private javax.swing.JButton btnBuscarR;
     private javax.swing.JMenuItem delete;
