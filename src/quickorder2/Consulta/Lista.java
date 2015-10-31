@@ -117,6 +117,48 @@ public class Lista extends javax.swing.JInternalFrame {
         this.setTitle("Pedidos");
     }
     
+    public void cargarProductos(){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        while(tabla.getRowCount()>0){
+            modelo.removeRow(0);
+        }
+        
+        modelo.setColumnIdentifiers(new Object[]{"Restaurante", "Nombre", "Descripcion", "Tipo",  "Precio"});
+        
+        Iterator individuales = quickorder2.QuickOrder2.port.getDataIndividuales().iterator();
+
+        while (individuales.hasNext()) {
+            webservices.DataIndividual individual = (webservices.DataIndividual) individuales.next();
+            modelo.addRow(new Object[]{individual.getRestaurante(), individual.getNombre(), individual.getDescripcion(), "Individual",  "$ " + individual.getPrecio()});
+        }
+        
+        Iterator promociones = quickorder2.QuickOrder2.port.getDataPromociones().iterator();
+        
+        while (promociones .hasNext()) {
+            webservices.DataPromocion promocion = (webservices.DataPromocion) promociones.next();
+            modelo.addRow(new Object[]{promocion.getRestaurante(), promocion.getNombre(), promocion.getDescripcion(), "Promocion",  "$ " + promocion.getPrecio()});
+        }
+        
+        tabla.addMouseListener(new MouseAdapter() { 
+                public void mouseClicked(MouseEvent e) {
+                    if(e.getClickCount()==2){
+                        int i;
+                        if(tabla.getValueAt(tabla.getSelectedRow(), 3).toString().equals("Individual"))
+                            i = 0;
+                        else
+                            i = 1;
+                            
+                        DetalleIndividual w = new DetalleIndividual(null, i, tabla.getValueAt(tabla.getSelectedRow(), 0).toString(), tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+                        w.setVisible(true);
+                    }
+                } 
+         });
+        
+        tabla.setModel(modelo);
+        this.setTitle("Productos");
+    }
+    
     //cargar res
 
     /**

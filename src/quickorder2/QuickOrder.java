@@ -52,6 +52,7 @@ public class QuickOrder extends javax.swing.JFrame {
         CClientes = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         CPedidos = new javax.swing.JMenuItem();
+        CProductos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,6 +140,14 @@ public class QuickOrder extends javax.swing.JFrame {
         });
         MenuCons.add(CPedidos);
 
+        CProductos.setText("Productos");
+        CProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CProductosActionPerformed(evt);
+            }
+        });
+        MenuCons.add(CProductos);
+
         menuBar.add(MenuCons);
 
         setJMenuBar(menuBar);
@@ -208,6 +217,13 @@ public class QuickOrder extends javax.swing.JFrame {
         w.setVisible(true);
     }//GEN-LAST:event_RSubMenuPedidoActionPerformed
 
+    private void CProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CProductosActionPerformed
+        quickorder2.Consulta.Lista w = new quickorder2.Consulta.Lista();
+        w.cargarProductos();
+        desktopPane.add(w);
+        w.setVisible(true);
+    }//GEN-LAST:event_CProductosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -246,6 +262,7 @@ public class QuickOrder extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CClientes;
     private javax.swing.JMenuItem CPedidos;
+    private javax.swing.JMenuItem CProductos;
     private javax.swing.JMenu CSubMenuUsuarios;
     private javax.swing.JMenuItem ItemRCliente;
     private javax.swing.JMenuItem ItemRIndividual;
