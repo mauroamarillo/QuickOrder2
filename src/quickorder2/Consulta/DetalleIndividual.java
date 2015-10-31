@@ -42,6 +42,10 @@ public class DetalleIndividual extends javax.swing.JDialog {
             }
             tablaProductos.setModel(modelo);
             this.setTitle("Datos de la promocion " + producto.getNombre() + " - " + producto.getRestaurante());
+        }else{
+            this.jScrollPane1.setVisible(false);
+            this.jLabel8.setVisible(false);
+            this.pack();
         }
         
         this.setTitle("Datos del producto " + producto.getNombre() + " - " + producto.getRestaurante());

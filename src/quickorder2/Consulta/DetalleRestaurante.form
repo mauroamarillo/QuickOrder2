@@ -110,7 +110,7 @@
                   <Component id="lblCategorias" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+              <Component id="jLabel8" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="180" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
