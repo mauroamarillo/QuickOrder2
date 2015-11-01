@@ -53,6 +53,11 @@ public class QuickOrder extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         CPedidos = new javax.swing.JMenuItem();
         CProductos = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        CVisitasURL = new javax.swing.JMenuItem();
+        CVisitasR = new javax.swing.JMenuItem();
+        CVisitasSO = new javax.swing.JMenuItem();
+        CVisitasBrowser = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,6 +153,42 @@ public class QuickOrder extends javax.swing.JFrame {
         });
         MenuCons.add(CProductos);
 
+        jMenu1.setText("Estadistica");
+
+        CVisitasURL.setText("Visitas por URL");
+        CVisitasURL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CVisitasURLActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CVisitasURL);
+
+        CVisitasR.setText("Visitas por restaurante");
+        CVisitasR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CVisitasRActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CVisitasR);
+
+        CVisitasSO.setText("Visitas por sistema operativo");
+        CVisitasSO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CVisitasSOActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CVisitasSO);
+
+        CVisitasBrowser.setText("Visitas por navegador");
+        CVisitasBrowser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CVisitasBrowserActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CVisitasBrowser);
+
+        MenuCons.add(jMenu1);
+
         menuBar.add(MenuCons);
 
         setJMenuBar(menuBar);
@@ -156,11 +197,15 @@ public class QuickOrder extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 899, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -224,6 +269,34 @@ public class QuickOrder extends javax.swing.JFrame {
         w.setVisible(true);
     }//GEN-LAST:event_CProductosActionPerformed
 
+    private void CVisitasURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CVisitasURLActionPerformed
+        quickorder2.Consulta.Lista w = new quickorder2.Consulta.Lista();
+        w.cargarVisitasURL();
+        desktopPane.add(w);
+        w.setVisible(true);
+    }//GEN-LAST:event_CVisitasURLActionPerformed
+
+    private void CVisitasRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CVisitasRActionPerformed
+        quickorder2.Consulta.Lista w = new quickorder2.Consulta.Lista();
+        w.cargarVisitasRestaurante();
+        desktopPane.add(w);
+        w.setVisible(true);
+    }//GEN-LAST:event_CVisitasRActionPerformed
+
+    private void CVisitasSOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CVisitasSOActionPerformed
+        quickorder2.Consulta.Lista w = new quickorder2.Consulta.Lista();
+        w.cargarVisitasSO();
+        desktopPane.add(w);
+        w.setVisible(true);
+    }//GEN-LAST:event_CVisitasSOActionPerformed
+
+    private void CVisitasBrowserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CVisitasBrowserActionPerformed
+        quickorder2.Consulta.Lista w = new quickorder2.Consulta.Lista();
+        w.cargarVisitasBrowser();
+        desktopPane.add(w);
+        w.setVisible(true);
+    }//GEN-LAST:event_CVisitasBrowserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -264,6 +337,10 @@ public class QuickOrder extends javax.swing.JFrame {
     private javax.swing.JMenuItem CPedidos;
     private javax.swing.JMenuItem CProductos;
     private javax.swing.JMenu CSubMenuUsuarios;
+    private javax.swing.JMenuItem CVisitasBrowser;
+    private javax.swing.JMenuItem CVisitasR;
+    private javax.swing.JMenuItem CVisitasSO;
+    private javax.swing.JMenuItem CVisitasURL;
     private javax.swing.JMenuItem ItemRCliente;
     private javax.swing.JMenuItem ItemRIndividual;
     private javax.swing.JMenuItem ItemRPromocion;
@@ -274,6 +351,7 @@ public class QuickOrder extends javax.swing.JFrame {
     private javax.swing.JMenu RSubMenuProducto;
     private javax.swing.JMenu RSubMenuUsuarios;
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables

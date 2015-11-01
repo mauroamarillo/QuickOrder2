@@ -149,7 +149,7 @@ public class Lista extends javax.swing.JInternalFrame {
                         else
                             i = 1;
                             
-                        DetalleIndividual w = new DetalleIndividual(null, i, tabla.getValueAt(tabla.getSelectedRow(), 0).toString(), tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+                        DetalleProducto w = new DetalleProducto(null, i, tabla.getValueAt(tabla.getSelectedRow(), 0).toString(), tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
                         w.setVisible(true);
                     }
                 } 
@@ -159,6 +159,97 @@ public class Lista extends javax.swing.JInternalFrame {
         this.setTitle("Productos");
     }
     
+    public void cargarVisitasRestaurante(){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        while(tabla.getRowCount()>0){
+            modelo.removeRow(0);
+        }
+        
+        modelo.setColumnIdentifiers(new Object[]{"Nickname", "Nombre", "E-Mail", "Direccion",  "Visitas"});
+        
+        
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasRestaurante().iterator();
+        
+        
+        while(datos.hasNext()){
+            String fila =  (String) datos.next();
+            String[] mismo = fila.split("%");
+            System.out.println(fila);
+            modelo.addRow(mismo);
+        }
+        
+        tabla.setModel(modelo);
+    }
+    
+    public void cargarVisitasURL(){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        while(tabla.getRowCount()>0){
+            modelo.removeRow(0);
+        }
+        
+        modelo.setColumnIdentifiers(new Object[]{"URL", "Visitas"});
+        
+        
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasURL().iterator();
+        
+        
+        while(datos.hasNext()){
+            String fila =  (String) datos.next();
+            String[] mismo = fila.split("%");
+            System.out.println(fila);
+            modelo.addRow(mismo);
+        }
+        
+        tabla.setModel(modelo);
+    }
+
+    public void cargarVisitasSO(){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        while(tabla.getRowCount()>0){
+            modelo.removeRow(0);
+        }
+        
+        modelo.setColumnIdentifiers(new Object[]{"Sistema Operativo", "Visitas"});
+        
+        
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasSO().iterator();
+        
+        
+        while(datos.hasNext()){
+            String fila =  (String) datos.next();
+            String[] mismo = fila.split("%");
+            System.out.println(fila);
+            modelo.addRow(mismo);
+        }
+        
+        tabla.setModel(modelo);
+    }
+    
+    public void cargarVisitasBrowser(){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        while(tabla.getRowCount()>0){
+            modelo.removeRow(0);
+        }
+        
+        modelo.setColumnIdentifiers(new Object[]{"Navegador", "Visitas"});
+        
+        
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasBrowser().iterator();
+        
+        
+        while(datos.hasNext()){
+            String fila =  (String) datos.next();
+            String[] mismo = fila.split("%");
+            System.out.println(fila);
+            modelo.addRow(mismo);
+        }
+        
+        tabla.setModel(modelo);
+    }
     //cargar res
 
     /**

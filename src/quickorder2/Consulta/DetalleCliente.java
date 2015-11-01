@@ -5,6 +5,8 @@
  */
 package quickorder2.Consulta;
 
+import static quickorder2.Registro.Herramientas.Imagenes.cargarYescalar;
+
 /**
  *
  * @author Mauro
@@ -28,6 +30,7 @@ public class DetalleCliente extends javax.swing.JDialog {
         lblDireccion.setText(cliente.getDireccion());
         lblMail.setText(cliente.getEmail());
         lblNick.setText(cliente.getNickname());
+        lblImg.setIcon(cargarYescalar(cliente.getImagen(), lblImg.getWidth(), lblImg.getHeight()));
         this.setTitle("Datos del cliente " + lblNombre.getText());
     }
 
@@ -52,7 +55,7 @@ public class DetalleCliente extends javax.swing.JDialog {
         lblDireccion = new javax.swing.JLabel();
         lblMail = new javax.swing.JLabel();
         lblNick = new javax.swing.JLabel();
-        LabelIMGs = new javax.swing.JLabel();
+        lblImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Datos del cliente X");
@@ -81,18 +84,18 @@ public class DetalleCliente extends javax.swing.JDialog {
 
         lblNick.setText("Nick");
 
-        LabelIMGs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LabelIMGs.setText("IMG");
-        LabelIMGs.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImg.setText("IMG");
+        lblImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel1)
@@ -107,18 +110,17 @@ public class DetalleCliente extends javax.swing.JDialog {
                             .addComponent(lblDireccion)
                             .addComponent(lblNombre)
                             .addComponent(lblApellido)
-                            .addComponent(lblFN))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(lblFN)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))))
+                        .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -192,7 +194,6 @@ public class DetalleCliente extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LabelIMGs;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -202,6 +203,7 @@ public class DetalleCliente extends javax.swing.JDialog {
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblDireccion;
     private javax.swing.JLabel lblFN;
+    private javax.swing.JLabel lblImg;
     private javax.swing.JLabel lblMail;
     private javax.swing.JLabel lblNick;
     private javax.swing.JLabel lblNombre;

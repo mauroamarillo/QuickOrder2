@@ -81,8 +81,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="LabelIMGs" alignment="3" min="-2" pref="217" max="-2" attributes="0"/>
-                  <Component id="BtnAdelante" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="BtnAtras" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="BtnAdelante" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -212,6 +212,12 @@
     <Component class="javax.swing.JButton" name="BtnAdelante">
       <Properties>
         <Property name="text" type="java.lang.String" value="&gt;"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="null"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="null"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnAdelanteActionPerformed"/>

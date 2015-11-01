@@ -161,6 +161,8 @@ public class DetalleRestaurante extends javax.swing.JDialog {
         LabelIMGs.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         BtnAdelante.setText(">");
+        BtnAdelante.setMaximumSize(null);
+        BtnAdelante.setMinimumSize(null);
         BtnAdelante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAdelanteActionPerformed(evt);
@@ -223,8 +225,8 @@ public class DetalleRestaurante extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnAdelante)
-                    .addComponent(BtnAtras))
+                    .addComponent(BtnAtras)
+                    .addComponent(BtnAdelante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)

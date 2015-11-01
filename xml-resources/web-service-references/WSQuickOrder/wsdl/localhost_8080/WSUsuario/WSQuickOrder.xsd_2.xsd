@@ -1,4 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-740-. --><xs:schema xmlns:tns="http://WebServices/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://WebServices/">
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-740-. --><xs:schema xmlns:tns="http://WebServices/" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://WebServices/">
+
+<xs:import namespace="http://jaxb.dev.java.net/array" schemaLocation="http://localhost:8080/WSUsuario/WSQuickOrder?xsd=1" />
 
 <xs:element name="BuscarDataXRestaurante_Producto" type="tns:BuscarDataXRestaurante_Producto" />
 
@@ -64,21 +66,9 @@
 
 <xs:element name="consultarDataCategoriasResponse" type="tns:consultarDataCategoriasResponse" />
 
-<xs:element name="consultarEstadisticasBrowser" type="tns:consultarEstadisticasBrowser" />
-
-<xs:element name="consultarEstadisticasBrowserResponse" type="tns:consultarEstadisticasBrowserResponse" />
-
 <xs:element name="consultarEstadisticasRestaurante" type="tns:consultarEstadisticasRestaurante" />
 
 <xs:element name="consultarEstadisticasRestauranteResponse" type="tns:consultarEstadisticasRestauranteResponse" />
-
-<xs:element name="consultarEstadisticasSO" type="tns:consultarEstadisticasSO" />
-
-<xs:element name="consultarEstadisticasSOResponse" type="tns:consultarEstadisticasSOResponse" />
-
-<xs:element name="consultarEstadisticasURL" type="tns:consultarEstadisticasURL" />
-
-<xs:element name="consultarEstadisticasURLResponse" type="tns:consultarEstadisticasURLResponse" />
 
 <xs:element name="consultarRestaurantesPorCategoria" type="tns:consultarRestaurantesPorCategoria" />
 
@@ -624,16 +614,6 @@
 <xs:sequence />
 </xs:complexType>
 
-<xs:complexType name="consultarEstadisticasURL">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="consultarEstadisticasURLResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="pruebaPromocion">
 <xs:sequence />
 </xs:complexType>
@@ -653,16 +633,6 @@
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="consultarEstadisticasSO">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="consultarEstadisticasSOResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="nickOcupado">
@@ -796,16 +766,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="consultarEstadisticasBrowser">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="consultarEstadisticasBrowserResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="dc">
 <xs:sequence />
 </xs:complexType>
@@ -933,7 +893,7 @@
 
 <xs:complexType name="consultarEstadisticasRestauranteResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="return" type="ns1:anyTypeArray" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>
 </xs:complexType>
 

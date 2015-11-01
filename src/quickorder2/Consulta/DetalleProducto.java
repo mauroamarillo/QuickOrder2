@@ -7,17 +7,18 @@ package quickorder2.Consulta;
 
 import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
+import static quickorder2.Registro.Herramientas.Imagenes.cargarYescalar;
 
 /**
  *
  * @author Mauro
  */
-public class DetalleIndividual extends javax.swing.JDialog {
+public class DetalleProducto extends javax.swing.JDialog {
 
     /**
      * Creates new form DetalleIndividual
      */
-    public DetalleIndividual(java.awt.Frame parent, int tipo, String restaurante, String nombre) {
+    public DetalleProducto(java.awt.Frame parent, int tipo, String restaurante, String nombre) {
         super(parent, true);
         initComponents();
             cargarIndividual(restaurante, nombre);
@@ -30,6 +31,7 @@ public class DetalleIndividual extends javax.swing.JDialog {
         lblNombre.setText(producto.getNombre());
         lblCategorias.setText("<html>" + producto.getDescripcion() + "</html>");
         lblPrecio.setText("$ " + producto.getPrecio());
+        lblImg.setIcon(cargarYescalar(producto.getImagen(), lblImg.getWidth(), lblImg.getHeight()));
         
         if(producto instanceof webservices.DataPromocion){
             DefaultTableModel modelo = new DefaultTableModel();
@@ -63,7 +65,7 @@ public class DetalleIndividual extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        LabelIMGs = new javax.swing.JLabel();
+        lblImg = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblRestaurante = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
@@ -82,9 +84,9 @@ public class DetalleIndividual extends javax.swing.JDialog {
 
         jLabel4.setText("Descripcion:");
 
-        LabelIMGs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LabelIMGs.setText("IMG");
-        LabelIMGs.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImg.setText("IMG");
+        lblImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel5.setText("Nombre:");
 
@@ -124,7 +126,7 @@ public class DetalleIndividual extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(55, 55, 55)
-                                .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +157,7 @@ public class DetalleIndividual extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(LabelIMGs, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -199,20 +201,21 @@ public class DetalleIndividual extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetalleIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetalleIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetalleIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DetalleIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DetalleProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DetalleIndividual dialog = new DetalleIndividual(new javax.swing.JFrame(), 0, "", "");
+                DetalleProducto dialog = new DetalleProducto(new javax.swing.JFrame(), 0, "", "");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -225,7 +228,6 @@ public class DetalleIndividual extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LabelIMGs;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -233,6 +235,7 @@ public class DetalleIndividual extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCategorias;
+    private javax.swing.JLabel lblImg;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JLabel lblRestaurante;
