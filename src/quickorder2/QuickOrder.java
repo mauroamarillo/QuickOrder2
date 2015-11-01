@@ -1,5 +1,6 @@
 package quickorder2;
 
+import java.awt.Dimension;
 import javax.swing.UIManager;
 
 /*
@@ -62,6 +63,11 @@ public class QuickOrder extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         desktopPane.setBackground(new java.awt.Color(255, 255, 255));
+        desktopPane.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                desktopPaneComponentAdded(evt);
+            }
+        });
 
         MenuReg.setText("Registro");
 
@@ -197,15 +203,11 @@ public class QuickOrder extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 899, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
         );
 
         pack();
@@ -296,6 +298,15 @@ public class QuickOrder extends javax.swing.JFrame {
         desktopPane.add(w);
         w.setVisible(true);
     }//GEN-LAST:event_CVisitasBrowserActionPerformed
+
+    private void desktopPaneComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_desktopPaneComponentAdded
+        Dimension desktopSize = desktopPane.getSize();
+        Dimension jInternalFrameSize = evt.getChild().getSize();
+        int width = (desktopSize.width - jInternalFrameSize.width) / 2;
+        int height = (desktopSize.height - jInternalFrameSize.height) / 2;
+        evt.getChild().setLocation(width, height);
+        evt.getChild().setVisible(true);
+    }//GEN-LAST:event_desktopPaneComponentAdded
 
     /**
      * @param args the command line arguments
