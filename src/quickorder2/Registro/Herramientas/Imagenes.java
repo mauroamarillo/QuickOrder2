@@ -53,6 +53,9 @@ public class Imagenes {
     }
 
     public static String convertirImagen(String path) throws FileNotFoundException {
+        if (path == null || path.isEmpty()) {
+            return "NO";
+        }
         try {
             File file = new File(path);
             FileInputStream fis = new FileInputStream(file);
@@ -83,7 +86,7 @@ public class Imagenes {
         }
         return "NO";
     }
-    
+
     public static ImageIcon obtenerImagenEscalada(String path, int w, int h) {
         Image img = new ImageIcon(path).getImage();
         Image newImg;
@@ -104,6 +107,9 @@ public class Imagenes {
      * @return
      */
     public static ImageIcon cargarImagen(String path) {
+        if(path == null ||path.isEmpty()|| path.equals("NO")){
+            return new ImageIcon("src/img/sin_img.jpg");
+        }
         try {
             byte[] btDataFile = Base64.getDecoder().decode(path.split(",")[1]);
             BufferedImage image = ImageIO.read(new ByteArrayInputStream(btDataFile));
