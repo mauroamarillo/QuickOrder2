@@ -7,7 +7,6 @@ package quickorder2.Consulta;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.RowFilter;

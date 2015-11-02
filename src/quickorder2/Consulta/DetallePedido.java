@@ -20,6 +20,7 @@ public class DetallePedido extends javax.swing.JDialog {
     public DetallePedido(java.awt.Frame parent, int numero) {
         super(parent, true);
         initComponents();
+        this.setLocationRelativeTo(quickorder2.QuickOrder2.parent);
         cargarDatos(numero);
     }
     

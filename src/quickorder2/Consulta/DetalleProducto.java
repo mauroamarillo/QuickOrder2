@@ -21,35 +21,36 @@ public class DetalleProducto extends javax.swing.JDialog {
     public DetalleProducto(java.awt.Frame parent, int tipo, String restaurante, String nombre) {
         super(parent, true);
         initComponents();
-            cargarIndividual(restaurante, nombre);
+        this.setLocationRelativeTo(quickorder2.QuickOrder2.parent);
+        cargarIndividual(restaurante, nombre);
     }
-    
-    public void cargarIndividual(String restaurante, String nombre){
+
+    public void cargarIndividual(String restaurante, String nombre) {
         webservices.DataProducto producto = quickorder2.QuickOrder2.port.buscarDataXRestauranteProducto(restaurante + "_" + nombre);
-        
+
         lblRestaurante.setText(producto.getRestaurante());
         lblNombre.setText(producto.getNombre());
         lblCategorias.setText("<html>" + producto.getDescripcion() + "</html>");
         lblPrecio.setText("$ " + producto.getPrecio());
         lblImg.setIcon(cargarYescalar(producto.getImagen(), lblImg.getWidth(), lblImg.getHeight()));
-        
-        if(producto instanceof webservices.DataPromocion){
+
+        if (producto instanceof webservices.DataPromocion) {
             DefaultTableModel modelo = new DefaultTableModel();
             modelo.setColumnIdentifiers(new Object[]{"Nombre", "Descripcion", "Precio", "Cantidad", "Subtotal"});
             Iterator prodpromos = quickorder2.QuickOrder2.port.promocionGetProdPromo(producto.getRestaurante() + "_" + producto.getNombre()).iterator();
-            
-            while(prodpromos.hasNext()){
+
+            while (prodpromos.hasNext()) {
                 webservices.DataProdPromo prodpromo = (webservices.DataProdPromo) prodpromos.next();
                 modelo.addRow(new Object[]{prodpromo.getIndividual().getNombre(), prodpromo.getIndividual().getDescripcion(), "$ " + prodpromo.getIndividual().getPrecio(), prodpromo.getCantidad(), "$ " + (prodpromo.getCantidad() * prodpromo.getIndividual().getPrecio())});
             }
             tablaProductos.setModel(modelo);
             this.setTitle("Datos de la promocion " + producto.getNombre() + " - " + producto.getRestaurante());
-        }else{
+        } else {
             this.jScrollPane1.setVisible(false);
             this.jLabel8.setVisible(false);
             this.pack();
         }
-        
+
         this.setTitle("Datos del producto " + producto.getNombre() + " - " + producto.getRestaurante());
     }
 

@@ -5,6 +5,7 @@
  */
 package quickorder2.Consulta;
 
+import java.awt.Color;
 import static quickorder2.Registro.Herramientas.Imagenes.cargarYescalar;
 
 /**
@@ -19,6 +20,8 @@ public class DetalleCliente extends javax.swing.JDialog {
     public DetalleCliente(java.awt.Frame parent, String nick) {
         super(parent, true);
         initComponents();
+        this.setBackground(Color.white);
+        this.setLocationRelativeTo(quickorder2.QuickOrder2.parent);
         cargarDatos(nick);
     }
     
