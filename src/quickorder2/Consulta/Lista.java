@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -17,23 +19,24 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Lista extends javax.swing.JInternalFrame {
 
+    DefaultTableModel modelo = new DefaultTableModel();
+
     /**
      * Creates new form Clientes
      */
-    
     public Lista() {
         initComponents();
     }
 
     public void cargarClientes() {
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(modelo.getRowCount()>0){
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
+
         modelo.setColumnIdentifiers(new Object[]{"Nombre", "Nickname", "E-Mail"});
-        
+
         List<Object> clientes = quickorder2.QuickOrder2.port.getDataClientes();
 
         Iterator it = clientes.iterator();
@@ -42,30 +45,30 @@ public class Lista extends javax.swing.JInternalFrame {
             webservices.DataCliente cliente = (webservices.DataCliente) it.next();
             modelo.addRow(new Object[]{cliente.getNombre() + " " + cliente.getApellido(), cliente.getNickname(), cliente.getEmail()});
         }
-        
-        tabla.addMouseListener(new MouseAdapter() { 
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if(e.getClickCount()==2){
-                        DetalleCliente w = new DetalleCliente(null, tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                        w.setVisible(true);
-                    }
-                } 
-         });
-        
+
+        tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    DetalleCliente w = new DetalleCliente(null, tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+                    w.setVisible(true);
+                }
+            }
+        });
+
         tabla.setModel(modelo);
         this.setTitle("Clientes");
     }
-    
+
     public void cargarRestaurantes() {
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
+
         modelo.setColumnIdentifiers(new Object[]{"Nombre", "Nickname", "E-Mail"});
-        
+
         List<Object> restaurantes = quickorder2.QuickOrder2.port.getDataRestaurantes();
 
         Iterator it = restaurantes.iterator();
@@ -74,180 +77,173 @@ public class Lista extends javax.swing.JInternalFrame {
             webservices.DataRestaurante restaurante = (webservices.DataRestaurante) it.next();
             modelo.addRow(new Object[]{restaurante.getNombre(), restaurante.getNickname(), restaurante.getEmail()});
         }
-        
-        tabla.addMouseListener(new MouseAdapter() { 
-                public void mouseClicked(MouseEvent e) {
-                    if(e.getClickCount()==2){
-                        DetalleRestaurante w = new DetalleRestaurante(null, tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                        w.setVisible(true);
-                    }
-                } 
-         });
-        
+
+        tabla.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    DetalleRestaurante w = new DetalleRestaurante(null, tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+                    w.setVisible(true);
+                }
+            }
+        });
+
         tabla.setModel(modelo);
         this.setTitle("Restaurantes");
     }
-    
+
     public void cargarPedidos() {
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
+
         modelo.setColumnIdentifiers(new Object[]{"Numero", "Restaurante", "Cliente", "Fecha"});
-        
+
         Iterator pedidos = quickorder2.QuickOrder2.port.getInfoPedidos().iterator();
 
         while (pedidos.hasNext()) {
             webservices.DataPedido pedido = (webservices.DataPedido) pedidos.next();
-            modelo.addRow(new Object[]{pedido.getNumero(), pedido.getRestaurante(), pedido.getCliente(), String.format("%02d/%02d/%d",pedido.getFecha().getDia(), pedido.getFecha().getMes(), pedido.getFecha().getAgno())});
+            modelo.addRow(new Object[]{pedido.getNumero(), pedido.getRestaurante(), pedido.getCliente(), String.format("%02d/%02d/%d", pedido.getFecha().getDia(), pedido.getFecha().getMes(), pedido.getFecha().getAgno())});
         }
-        
-        tabla.addMouseListener(new MouseAdapter() { 
-                public void mouseClicked(MouseEvent e) {
-                    if(e.getClickCount()==2){
-                        DetallePedido w = new DetallePedido(null, Integer.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0).toString()));
-                        w.setVisible(true);
-                    }
-                } 
-         });
-        
+
+        tabla.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    DetallePedido w = new DetallePedido(null, Integer.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0).toString()));
+                    w.setVisible(true);
+                }
+            }
+        });
+
         tabla.setModel(modelo);
         this.setTitle("Pedidos");
     }
-    
-    public void cargarProductos(){
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
+
+    public void cargarProductos() {
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
-        modelo.setColumnIdentifiers(new Object[]{"Restaurante", "Nombre", "Descripcion", "Tipo",  "Precio"});
-        
+
+        modelo.setColumnIdentifiers(new Object[]{"Restaurante", "Nombre", "Descripcion", "Tipo", "Precio"});
+
         Iterator individuales = quickorder2.QuickOrder2.port.getDataIndividuales().iterator();
 
         while (individuales.hasNext()) {
             webservices.DataIndividual individual = (webservices.DataIndividual) individuales.next();
-            modelo.addRow(new Object[]{individual.getRestaurante(), individual.getNombre(), individual.getDescripcion(), "Individual",  "$ " + individual.getPrecio()});
+            modelo.addRow(new Object[]{individual.getRestaurante(), individual.getNombre(), individual.getDescripcion(), "Individual", "$ " + individual.getPrecio()});
         }
-        
+
         Iterator promociones = quickorder2.QuickOrder2.port.getDataPromociones().iterator();
-        
-        while (promociones .hasNext()) {
+
+        while (promociones.hasNext()) {
             webservices.DataPromocion promocion = (webservices.DataPromocion) promociones.next();
-            modelo.addRow(new Object[]{promocion.getRestaurante(), promocion.getNombre(), promocion.getDescripcion(), "Promocion",  "$ " + promocion.getPrecio()});
+            modelo.addRow(new Object[]{promocion.getRestaurante(), promocion.getNombre(), promocion.getDescripcion(), "Promocion", "$ " + promocion.getPrecio()});
         }
-        
-        tabla.addMouseListener(new MouseAdapter() { 
-                public void mouseClicked(MouseEvent e) {
-                    if(e.getClickCount()==2){
-                        int i;
-                        if(tabla.getValueAt(tabla.getSelectedRow(), 3).toString().equals("Individual"))
-                            i = 0;
-                        else
-                            i = 1;
-                            
-                        DetalleProducto w = new DetalleProducto(null, i, tabla.getValueAt(tabla.getSelectedRow(), 0).toString(), tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-                        w.setVisible(true);
+
+        tabla.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int i;
+                    if (tabla.getValueAt(tabla.getSelectedRow(), 3).toString().equals("Individual")) {
+                        i = 0;
+                    } else {
+                        i = 1;
                     }
-                } 
-         });
-        
+
+                    DetalleProducto w = new DetalleProducto(null, i, tabla.getValueAt(tabla.getSelectedRow(), 0).toString(), tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+                    w.setVisible(true);
+                }
+            }
+        });
+
         tabla.setModel(modelo);
         this.setTitle("Productos");
     }
-    
-    public void cargarVisitasRestaurante(){
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
+
+    public void cargarVisitasRestaurante() {
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
-        modelo.setColumnIdentifiers(new Object[]{"Nickname", "Nombre", "E-Mail", "Direccion",  "Visitas"});
-        
-        
+
+        modelo.setColumnIdentifiers(new Object[]{"Nickname", "Nombre", "E-Mail", "Direccion", "Visitas"});
+
         Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasRestaurante().iterator();
-        
-        
-        while(datos.hasNext()){
-            String fila =  (String) datos.next();
+
+        while (datos.hasNext()) {
+            String fila = (String) datos.next();
             String[] mismo = fila.split("%");
             System.out.println(fila);
             modelo.addRow(mismo);
         }
-        
-        tabla.setModel(modelo);
-    }
-    
-    public void cargarVisitasURL(){
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
-            modelo.removeRow(0);
-        }
-        
-        modelo.setColumnIdentifiers(new Object[]{"URL", "Visitas"});
-        
-        
-        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasURL().iterator();
-        
-        
-        while(datos.hasNext()){
-            String fila =  (String) datos.next();
-            String[] mismo = fila.split("%");
-            System.out.println(fila);
-            modelo.addRow(mismo);
-        }
-        
+
         tabla.setModel(modelo);
     }
 
-    public void cargarVisitasSO(){
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
+    public void cargarVisitasURL() {
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
-        modelo.setColumnIdentifiers(new Object[]{"Sistema Operativo", "Visitas"});
-        
-        
-        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasSO().iterator();
-        
-        
-        while(datos.hasNext()){
-            String fila =  (String) datos.next();
+
+        modelo.setColumnIdentifiers(new Object[]{"URL", "Visitas"});
+
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasURL().iterator();
+
+        while (datos.hasNext()) {
+            String fila = (String) datos.next();
             String[] mismo = fila.split("%");
             System.out.println(fila);
             modelo.addRow(mismo);
         }
-        
+
         tabla.setModel(modelo);
     }
-    
-    public void cargarVisitasBrowser(){
-        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        
-        while(tabla.getRowCount()>0){
+
+    public void cargarVisitasSO() {
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
-        modelo.setColumnIdentifiers(new Object[]{"Navegador", "Visitas"});
-        
-        
-        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasBrowser().iterator();
-        
-        
-        while(datos.hasNext()){
-            String fila =  (String) datos.next();
+
+        modelo.setColumnIdentifiers(new Object[]{"Sistema Operativo", "Visitas"});
+
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasSO().iterator();
+
+        while (datos.hasNext()) {
+            String fila = (String) datos.next();
             String[] mismo = fila.split("%");
             System.out.println(fila);
             modelo.addRow(mismo);
         }
-        
+
+        tabla.setModel(modelo);
+    }
+
+    public void cargarVisitasBrowser() {
+        modelo = (DefaultTableModel) tabla.getModel();
+
+        while (tabla.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+
+        modelo.setColumnIdentifiers(new Object[]{"Navegador", "Visitas"});
+
+        Iterator datos = quickorder2.QuickOrder2.port.consultarEstadisticasBrowser().iterator();
+
+        while (datos.hasNext()) {
+            String fila = (String) datos.next();
+            String[] mismo = fila.split("%");
+            System.out.println(fila);
+            modelo.addRow(mismo);
+        }
+
         tabla.setModel(modelo);
     }
     //cargar res
@@ -269,6 +265,12 @@ public class Lista extends javax.swing.JInternalFrame {
         setClosable(true);
 
         jLabel1.setText("Filtro:");
+
+        txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFiltroKeyReleased(evt);
+            }
+        });
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -320,6 +322,50 @@ public class Lista extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyReleased
+        TableRowSorter sorter = new TableRowSorter<>(modelo);
+        tabla.setRowSorter(sorter);
+
+        RowFilter<DefaultTableModel, Object> rf = null;
+        //If current expression doesn't parse, don't update.
+        try {
+            int[] columnas = new int[modelo.getColumnCount()];
+            for(int i = 0 ; i < columnas.length ; i++){
+                columnas[i] = i;
+            }
+            rf = RowFilter.regexFilter("(?i)" + txtFiltro.getText(), columnas);
+        } catch (java.util.regex.PatternSyntaxException e) {
+            return;
+        }
+        
+        sorter.setRowFilter(rf);
+        /*DefaultTableModel filtrada = (DefaultTableModel) tabla.getModel();
+
+         if (txtFiltro.getText().isEmpty()) {
+         tabla.setModel(modelo);
+         } else {
+         for (int i = 0; i < modelo.getRowCount(); i++) {
+         System.out.println("Fila " + i + " de " + modelo.getRowCount());
+         for (int j = 0; j < modelo.getColumnCount(); j++) {
+         System.out.println("    Columna " + j);
+         if (modelo.getValueAt(i, j).toString().contains(txtFiltro.getText())) {
+         System.out.println("Se encontro una coincidencia: " + modelo.getValueAt(i, j) + " i=" + i + " j=" + j);
+         Object[] fila = new Object[modelo.getColumnCount()];
+         System.out.println("valores de la fila:");
+         for (int x = 0; x < fila.length; x++) {
+         fila[x] = modelo.getValueAt(i, x);
+         System.out.println(fila[x]);
+         }
+         filtrada.addRow(fila);
+         break;
+         }
+         }
+         }
+
+         tabla.setModel(filtrada);
+         }*/
+    }//GEN-LAST:event_txtFiltroKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

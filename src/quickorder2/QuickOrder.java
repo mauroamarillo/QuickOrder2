@@ -1,5 +1,6 @@
 package quickorder2;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.UIManager;
 
@@ -39,6 +40,7 @@ public class QuickOrder extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopPane = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         MenuReg = new javax.swing.JMenu();
         RSubMenuUsuarios = new javax.swing.JMenu();
@@ -62,12 +64,33 @@ public class QuickOrder extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        desktopPane.setBackground(new java.awt.Color(255, 255, 255));
         desktopPane.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
                 desktopPaneComponentAdded(evt);
             }
         });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marca_de_agua.png"))); // NOI18N
+        jLabel1.setText("Logo");
+        jLabel1.setToolTipText("");
+
+        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
+        desktopPane.setLayout(desktopPaneLayout);
+        desktopPaneLayout.setHorizontalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopPaneLayout.createSequentialGroup()
+                .addContainerGap(127, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        desktopPaneLayout.setVerticalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopPaneLayout.createSequentialGroup()
+                .addContainerGap(395, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        desktopPane.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         MenuReg.setText("Registro");
 
@@ -203,11 +226,11 @@ public class QuickOrder extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
+            .addComponent(desktopPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+            .addComponent(desktopPane)
         );
 
         pack();
@@ -305,6 +328,7 @@ public class QuickOrder extends javax.swing.JFrame {
         int width = (desktopSize.width - jInternalFrameSize.width) / 2;
         int height = (desktopSize.height - jInternalFrameSize.height) / 2;
         evt.getChild().setLocation(width, height);
+        evt.getChild().setBackground(Color.WHITE);
         evt.getChild().setVisible(true);
     }//GEN-LAST:event_desktopPaneComponentAdded
 
@@ -362,6 +386,7 @@ public class QuickOrder extends javax.swing.JFrame {
     private javax.swing.JMenu RSubMenuProducto;
     private javax.swing.JMenu RSubMenuUsuarios;
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menuBar;
