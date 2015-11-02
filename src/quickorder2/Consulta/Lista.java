@@ -7,6 +7,7 @@ package quickorder2.Consulta;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.RowFilter;
@@ -45,7 +46,11 @@ public class Lista extends javax.swing.JInternalFrame {
             webservices.DataCliente cliente = (webservices.DataCliente) it.next();
             modelo.addRow(new Object[]{cliente.getNombre() + " " + cliente.getApellido(), cliente.getNickname(), cliente.getEmail()});
         }
-
+        
+        for(int i = 2 ; i < tabla.getMouseListeners().length ; i++){
+            tabla.removeMouseListener(tabla.getMouseListeners()[i]);
+        }
+        
         tabla.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -84,6 +89,10 @@ public class Lista extends javax.swing.JInternalFrame {
             webservices.DataRestaurante restaurante = (webservices.DataRestaurante) it.next();
             modelo.addRow(new Object[]{restaurante.getNombre(), restaurante.getNickname(), restaurante.getEmail()});
         }
+        
+        for(int i = 2 ; i < tabla.getMouseListeners().length ; i++){
+            tabla.removeMouseListener(tabla.getMouseListeners()[i]);
+        }
 
         tabla.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -93,7 +102,7 @@ public class Lista extends javax.swing.JInternalFrame {
                 }
             }
         });
-        
+
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -120,6 +129,10 @@ public class Lista extends javax.swing.JInternalFrame {
             webservices.DataPedido pedido = (webservices.DataPedido) pedidos.next();
             modelo.addRow(new Object[]{pedido.getNumero(), pedido.getRestaurante(), pedido.getCliente(), String.format("%02d/%02d/%d", pedido.getFecha().getDia(), pedido.getFecha().getMes(), pedido.getFecha().getAgno())});
         }
+        
+        for(int i = 2 ; i < tabla.getMouseListeners().length ; i++){
+            tabla.removeMouseListener(tabla.getMouseListeners()[i]);
+        }
 
         tabla.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -129,7 +142,7 @@ public class Lista extends javax.swing.JInternalFrame {
                 }
             }
         });
-        
+
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -163,6 +176,10 @@ public class Lista extends javax.swing.JInternalFrame {
             webservices.DataPromocion promocion = (webservices.DataPromocion) promociones.next();
             modelo.addRow(new Object[]{promocion.getRestaurante(), promocion.getNombre(), promocion.getDescripcion(), "Promocion", "$ " + promocion.getPrecio()});
         }
+        
+        for(int i = 2 ; i < tabla.getMouseListeners().length ; i++){
+            tabla.removeMouseListener(tabla.getMouseListeners()[i]);
+        }
 
         tabla.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -179,7 +196,7 @@ public class Lista extends javax.swing.JInternalFrame {
                 }
             }
         });
-        
+
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -208,7 +225,7 @@ public class Lista extends javax.swing.JInternalFrame {
             System.out.println(fila);
             modelo.addRow(mismo);
         }
-        
+
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -236,7 +253,7 @@ public class Lista extends javax.swing.JInternalFrame {
             System.out.println(fila);
             modelo.addRow(mismo);
         }
-        
+
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -264,7 +281,7 @@ public class Lista extends javax.swing.JInternalFrame {
             System.out.println(fila);
             modelo.addRow(mismo);
         }
-        
+
         btnActualizar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -299,7 +316,7 @@ public class Lista extends javax.swing.JInternalFrame {
                 cargarVisitasBrowser();
             }
         });
-        
+
         tabla.setModel(modelo);
     }
     //cargar res
