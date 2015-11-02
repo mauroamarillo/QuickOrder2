@@ -76,10 +76,12 @@ public class QuickOrder2 {
         port = service.getWSQuickOrderPort();
 
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(QuickOrder2.class.getName()).log(Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
         }
+        
+        JFrame.setDefaultLookAndFeelDecorated(true);
 
         parent = new QuickOrder();
         parent.setExtendedState(JFrame.MAXIMIZED_BOTH);

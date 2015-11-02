@@ -56,6 +56,13 @@ public class Lista extends javax.swing.JInternalFrame {
             }
         });
 
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarClientes();
+            }
+        });
+
         tabla.setModel(modelo);
         this.setTitle("Clientes");
     }
@@ -86,6 +93,13 @@ public class Lista extends javax.swing.JInternalFrame {
                 }
             }
         });
+        
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarRestaurantes();
+            }
+        });
 
         tabla.setModel(modelo);
         this.setTitle("Restaurantes");
@@ -113,6 +127,13 @@ public class Lista extends javax.swing.JInternalFrame {
                     DetallePedido w = new DetallePedido(null, Integer.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0).toString()));
                     w.setVisible(true);
                 }
+            }
+        });
+        
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarPedidos();
             }
         });
 
@@ -158,6 +179,13 @@ public class Lista extends javax.swing.JInternalFrame {
                 }
             }
         });
+        
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarProductos();
+            }
+        });
 
         tabla.setModel(modelo);
         this.setTitle("Productos");
@@ -180,6 +208,13 @@ public class Lista extends javax.swing.JInternalFrame {
             System.out.println(fila);
             modelo.addRow(mismo);
         }
+        
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarVisitasRestaurante();
+            }
+        });
 
         tabla.setModel(modelo);
     }
@@ -201,6 +236,13 @@ public class Lista extends javax.swing.JInternalFrame {
             System.out.println(fila);
             modelo.addRow(mismo);
         }
+        
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarVisitasURL();
+            }
+        });
 
         tabla.setModel(modelo);
     }
@@ -222,6 +264,13 @@ public class Lista extends javax.swing.JInternalFrame {
             System.out.println(fila);
             modelo.addRow(mismo);
         }
+        
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarVisitasSO();
+            }
+        });
 
         tabla.setModel(modelo);
     }
@@ -244,6 +293,13 @@ public class Lista extends javax.swing.JInternalFrame {
             modelo.addRow(mismo);
         }
 
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cargarVisitasBrowser();
+            }
+        });
+        
         tabla.setModel(modelo);
     }
     //cargar res
@@ -261,6 +317,7 @@ public class Lista extends javax.swing.JInternalFrame {
         txtFiltro = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        btnActualizar = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -294,6 +351,13 @@ public class Lista extends javax.swing.JInternalFrame {
         tabla.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tabla);
 
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -305,7 +369,10 @@ public class Lista extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(txtFiltro)))
+                        .addComponent(txtFiltro))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnActualizar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -316,7 +383,9 @@ public class Lista extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnActualizar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -331,14 +400,14 @@ public class Lista extends javax.swing.JInternalFrame {
         //If current expression doesn't parse, don't update.
         try {
             int[] columnas = new int[modelo.getColumnCount()];
-            for(int i = 0 ; i < columnas.length ; i++){
+            for (int i = 0; i < columnas.length; i++) {
                 columnas[i] = i;
             }
             rf = RowFilter.regexFilter("(?i)" + txtFiltro.getText(), columnas);
         } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }
-        
+
         sorter.setRowFilter(rf);
         /*DefaultTableModel filtrada = (DefaultTableModel) tabla.getModel();
 
@@ -367,8 +436,13 @@ public class Lista extends javax.swing.JInternalFrame {
          }*/
     }//GEN-LAST:event_txtFiltroKeyReleased
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
