@@ -6,6 +6,8 @@
 package quickorder2.Consulta;
 
 import java.util.Iterator;
+import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import static quickorder2.Registro.Herramientas.Imagenes.cargarYescalar;
 
@@ -22,6 +24,7 @@ public class DetalleProducto extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
         this.setLocationRelativeTo(quickorder2.QuickOrder2.parent);
+        
         cargarIndividual(restaurante, nombre);
     }
 
@@ -46,8 +49,8 @@ public class DetalleProducto extends javax.swing.JDialog {
             tablaProductos.setModel(modelo);
             this.setTitle("Datos de la promocion " + producto.getNombre() + " - " + producto.getRestaurante());
         } else {
-            this.jScrollPane1.setVisible(false);
-            this.jLabel8.setVisible(false);
+            jLabel8.setVisible(false);
+            jScrollPane1.setVisible(false);
             this.pack();
         }
 
@@ -171,7 +174,7 @@ public class DetalleProducto extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(lblCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(lblPrecio))

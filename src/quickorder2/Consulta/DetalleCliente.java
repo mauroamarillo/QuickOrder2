@@ -22,6 +22,7 @@ public class DetalleCliente extends javax.swing.JDialog {
         initComponents();
         this.setBackground(Color.white);
         this.setLocationRelativeTo(quickorder2.QuickOrder2.parent);
+        this.setResizable(false);
         cargarDatos(nick);
     }
     
