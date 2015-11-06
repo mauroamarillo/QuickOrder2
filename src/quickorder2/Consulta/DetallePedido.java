@@ -5,6 +5,8 @@
  */
 package quickorder2.Consulta;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Mauro
  */
 public class DetallePedido extends javax.swing.JDialog {
+
+    webservices.DataPedido pedido = null;
 
     /**
      * Creates new form DetallePedido
@@ -24,30 +28,34 @@ public class DetallePedido extends javax.swing.JDialog {
         this.setResizable(false);
         cargarDatos(numero);
     }
-    
-    public void cargarDatos(int numero){
-        webservices.DataPedido pedido = quickorder2.QuickOrder2.port.getDataPedido(numero);
-        
+
+    public void cargarDatos(int numero) {
+        pedido = quickorder2.QuickOrder2.port.getDataPedido(numero);
+        limpiarTablas();
+
         lblNumero.setText(String.valueOf(pedido.getNumero()));
         lblCliente.setText(pedido.getCliente());
         lblRestaurante.setText(pedido.getRestaurante());
-        lblFecha.setText(String.format("%02d/%02d/%d",pedido.getFecha().getDia(), pedido.getFecha().getMes(), pedido.getFecha().getAgno()));
+        lblFecha.setText(String.format("%02d/%02d/%d", pedido.getFecha().getDia(), pedido.getFecha().getMes(), pedido.getFecha().getAgno()));
         lblPrecio.setText("$" + pedido.getPrecio());
         lblEstado.setText(pedido.getEstado().value());
-        
+
+        prepararCambioEstado(pedido.getEstado().value());
+
         DefaultTableModel modeloHistorial = (DefaultTableModel) tablaEstado.getModel();
-        
+
         modeloHistorial.setColumnIdentifiers(new Object[]{"Estado", "Fecha y Hora"});
-        
-        while(modeloHistorial.getRowCount() > 0)
+
+        while (modeloHistorial.getRowCount() > 0) {
             modeloHistorial.removeRow(0);
-        
+        }
+
         Iterator cambios = quickorder2.QuickOrder2.port.retornarCambiosEstado(numero).iterator();
-        
-        while(cambios.hasNext()){
+
+        while (cambios.hasNext()) {
             webservices.DataHistorialPedido cambio = (webservices.DataHistorialPedido) cambios.next();
             String estado = "";
-            switch(cambio.getEstado()){
+            switch (cambio.getEstado()) {
                 case 0:
                     estado = "En preparacion";
                     break;
@@ -61,28 +69,81 @@ public class DetallePedido extends javax.swing.JDialog {
                     estado = "A confirmar";
                     break;
             }
-            modeloHistorial.addRow(new Object[]{estado , cambio.getFechaHora()});
+            modeloHistorial.addRow(new Object[]{estado, cambio.getFechaHora()});
         }
-        
+
         tablaEstado.setModel(modeloHistorial);
-        
+
         DefaultTableModel modeloDetalle = (DefaultTableModel) tablaDetalle.getModel();
-        
-        modeloDetalle.setColumnIdentifiers(new Object[]{"Producto", "Precio individual", "Cantidad",  "Subtotal"});
-        
-        while(modeloDetalle.getRowCount() > 0)
+
+        modeloDetalle.setColumnIdentifiers(new Object[]{"Producto", "Precio individual", "Cantidad", "Subtotal"});
+
+        while (modeloDetalle.getRowCount() > 0) {
             modeloDetalle.removeRow(0);
-        
+        }
+
         Iterator detalles = quickorder2.QuickOrder2.port.pedidoGetProdPedidos(numero).iterator();
-        
-        while(detalles.hasNext()){
+
+        while (detalles.hasNext()) {
             webservices.DataProdPedido linea = (webservices.DataProdPedido) detalles.next();
             modeloDetalle.addRow(new Object[]{linea.getProducto().getNombre(), "$" + linea.getProducto().getPrecio(), linea.getCantidad(), "$" + (linea.getProducto().getPrecio() * linea.getCantidad())});
         }
-        
+
         tablaDetalle.setModel(modeloDetalle);
-        
+
         this.setTitle("Datos del pedido N° " + pedido.getNumero());
+    }
+    
+    private void limpiarTablas(){
+        DefaultTableModel estado = (DefaultTableModel) tablaEstado.getModel();
+        
+        while(estado.getRowCount() > 0){
+            estado.removeRow(0);
+        }
+        
+        DefaultTableModel detalle = (DefaultTableModel) tablaDetalle.getModel();
+        
+        while(detalle.getRowCount() > 0){
+            detalle.removeRow(0);
+        }
+    }
+
+    private void prepararCambioEstado(String estado) {
+        for (int i = 2; i < btnEstado.getMouseListeners().length; i++) {
+            btnEstado.removeMouseListener(btnEstado.getMouseListeners()[i]);
+        }
+
+        if (estado.toLowerCase().equals("aconfirmar")) {
+            btnEstado.setText("En Preparacion");
+        }else if (estado.toLowerCase().equals("preparacion")) {
+            btnEstado.setText("Enviado");
+        }else if (estado.toLowerCase().equals("enviado")) {
+            btnEstado.setText("Recibido");
+        }else if (estado.toLowerCase().equals("recibido")) {
+            btnEstado.setVisible(false);
+        } 
+
+        btnEstado.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int siguienteEstado = 3;
+                if (estado.toLowerCase().equals("aconfirmar")) {
+                    btnEstado.setText("En Preparacion");
+                    siguienteEstado = 0;
+                }else if (estado.toLowerCase().equals("preparacion")) {
+                    btnEstado.setText("Enviado");
+                    siguienteEstado = 1;
+                }else if (estado.toLowerCase().equals("enviado")) {
+                    btnEstado.setText("Recibido");
+                    siguienteEstado = 2;
+                    btnEstado.setVisible(false);
+                }
+
+                quickorder2.QuickOrder2.port.cambiarEstadoPedido(pedido.getNumero(), siguienteEstado);
+
+                cargarDatos(pedido.getNumero());
+            }
+        });
     }
 
     /**
@@ -124,6 +185,7 @@ public class DetallePedido extends javax.swing.JDialog {
         jLabel14 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEstado = new javax.swing.JTable();
+        btnEstado = new javax.swing.JButton();
 
         jLabel6.setText("Fecha de nacimiento:");
 
@@ -206,15 +268,18 @@ public class DetallePedido extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(tablaEstado);
 
+        btnEstado.setText("Siguiente Estado");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +300,9 @@ public class DetallePedido extends javax.swing.JDialog {
                             .addComponent(jLabel13)
                             .addComponent(jLabel14))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEstado)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -268,8 +335,10 @@ public class DetallePedido extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEstado)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,6 +391,7 @@ public class DetallePedido extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
